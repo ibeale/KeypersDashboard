@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+	{% if error %}
+	<p>{{ error }}</p>
+	{% else %}
+	<img src="https://cdn.discordapp.com/avatars/{{ user['id'] }}/{{ user['avatar'] }}" alt="user_icon" style="border-radius: 50%;"> Welcome, {{ user['username'] }}!
+	{% endif%}
+</h1>
+{% endblock %}
