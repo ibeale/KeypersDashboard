@@ -1,4 +1,4 @@
-from flask import Blueprint, request, redirect, render_template, url_for, session
+from flask import Blueprint, request, redirect, render_template, url_for, session, flash
 from . import db
 import os
 from requests_oauthlib import OAuth2Session
@@ -36,18 +36,10 @@ def make_session(token=None, state=None, scope=None):
         auto_refresh_url=TOKEN_URL,
         token_updater=token_updater)
 
-@auth.route('/login')
-def login():
-    scope = request.args.get('scope','identify email connections guilds guilds.join')
-    discord = make_session(scope=scope.split(' '))
-    authorization_url, state = discord.authorization_url(AUTHORIZATION_BASE_URL)
-    session['oauth2_state'] = state
-    return redirect(authorization_url)
-
 @auth.route('/callback')
 def callback():
     if request.values.get('error'):
-        return request.values['error']
+        return redirect(url_for('auth.logout'))
     discord = make_session(state=session.get('oauth2_state'))
     token = discord.fetch_token(
         TOKEN_URL,
@@ -56,10 +48,8 @@ def callback():
     session['oauth2_token'] = token
     return redirect(url_for('dashboard.dash'))
 
-@auth.route('/register')
-def register():
-    return render_template("register.html")
-
 @auth.route('/logout')
 def logout():
-    return "Logout"
+    if 'oauth2_token' in session.keys():
+        session.pop('oauth2_token')
+    return render_template("logout.html")

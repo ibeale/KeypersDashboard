@@ -42,10 +42,6 @@ def make_session(token=None, state=None, scope=None):
 def home():
     return render_template('index.html')
 
-@dashboard.route('/welcome')
-def welcome():
-    return render_template('welcome.html')
-
 @dashboard.route('/dashboard')
 def dash():
     error = Markup('You are not a part of our discord. Click <a href="https://discord.gg/JC8nE3">here.</a>')
