@@ -2,10 +2,18 @@
 
 {% block content %}
 <h1 class="title">
+	{% if role == "Administrator" %}
+	<h1>Administrator</h1>
+	{% else %}
+	<h1>Member</h1>
+	{% endif %}
 	{% if error %}
 	<p>{{ error }}</p>
 	{% else %}
 	<img src="https://cdn.discordapp.com/avatars/{{ user['id'] }}/{{ user['avatar'] }}" alt="user_icon" style="border-radius: 50%;"> Welcome, {{ user['username'] }}!
-	{% endif%}
+	{% endif %}
+	{% for bot in bots %}
+	<h1>{{ bot.name }}</h1>
+	{% endfor %}
 </h1>
 {% endblock %}

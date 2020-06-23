@@ -52,4 +52,7 @@ def callback():
 def logout():
     if 'oauth2_token' in session.keys():
         session.pop('oauth2_token')
-    return render_template("logout.html")
+        logout = True
+    else:
+        logout = False
+    return render_template("logout.html", logout=logout)
