@@ -37,7 +37,6 @@ def make_session(token=None, state=None, scope=None):
         token_updater=token_updater)
 
 
-
 @auth.route('/callback')
 def callback():
     if request.values.get('error'):
@@ -49,6 +48,7 @@ def callback():
         authorization_response=request.url)
     session['oauth2_token'] = token
     return redirect(url_for('dashboard.dash'))
+
 
 @auth.route('/logout')
 def logout():
