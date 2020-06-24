@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
+
 db = SQLAlchemy()
 OAUTH2_CLIENT_SECRET = "LKVD3qQf5ehpr3FPCB3bTqeZT79Fy3dn"
 
@@ -16,5 +17,8 @@ def create_app():
 
 	from .dashboard import dashboard as dashboard_blueprint
 	app.register_blueprint(dashboard_blueprint)
+
+	from .resetAPI import resetAPI as resetAPI_blueprint
+	app.register_blueprint(resetAPI_blueprint)
 
 	return app

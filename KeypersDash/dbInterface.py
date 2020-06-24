@@ -1,10 +1,9 @@
-from . import db
-# from flask import Flask
-# from flask_sqlalchemy import SQLAlchemy
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
-# app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-# db = SQLAlchemy(app)
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+db = SQLAlchemy(app)
 
 class User(db.Model):
     user_id = db.Column(db.Integer, primary_key=True)
@@ -12,9 +11,6 @@ class User(db.Model):
     username = db.Column(db.String(100), unique=True, nullable=False)
     discordID = db.Column(db.String(100), unique=True, nullable=False)
     api_keys = db.relationship('Apikey', backref="renter")
-
-    def __repr__(self):
-        return(f"User: {self.username} - DiscordID: {self.discordID} - Email: {self.email}")
 
 management = db.Table('management',
     db.Column('admin_id', db.Integer, db.ForeignKey('admin.admin_id')), 
@@ -27,16 +23,11 @@ class Admin(db.Model):
     username = db.Column(db.String(100), unique=True, nullable=False)
     discordID = db.Column(db.String(100), unique=True, nullable=False)
     botsManaged = db.relationship('Bot', secondary=management, backref=db.backref("managed_by", lazy='dynamic'))
-    def __repr__(self):
-        return(f"Admin: {self.username} - DiscordID: {self.discordID} - Email: {self.email}")
 
 class Bot(db.Model):
     bot_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     api_key = db.relationship('Apikey', backref="bot", uselist=False)
-
-    def __repr__(self):
-        return(f"Name: {self.name} - ID: {self.bot_id} - {f'Rented! {self.api_key}' if self.api_key else 'Available'}")
 
 class Apikey(db.Model):
     key_id = db.Column(db.Integer, primary_key=True)
@@ -44,10 +35,7 @@ class Apikey(db.Model):
     bot_id = db.Column(db.Integer, db.ForeignKey('bot.bot_id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
 
-    def __repr__(self):
-        return(f"ID: {self.key_id} - BotID: {self.bot_id} - User: {self.user_id}")
     
-
 
 
 

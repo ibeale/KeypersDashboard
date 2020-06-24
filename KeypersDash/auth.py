@@ -36,6 +36,8 @@ def make_session(token=None, state=None, scope=None):
         auto_refresh_url=TOKEN_URL,
         token_updater=token_updater)
 
+
+
 @auth.route('/callback')
 def callback():
     if request.values.get('error'):
@@ -53,6 +55,8 @@ def logout():
     if 'oauth2_token' in session.keys():
         session.pop('oauth2_token')
         logout = True
+    if 'oauth2_state' in session.keys():
+        session.pop('oauth2_state')
     else:
         logout = False
     return render_template("logout.html", logout=logout)

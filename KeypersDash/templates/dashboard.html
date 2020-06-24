@@ -7,13 +7,23 @@
 	{% else %}
 	<h1>Member</h1>
 	{% endif %}
+</h1>
+<h1>
 	{% if error %}
-	<p>{{ error }}</p>
+		<p>{{ error }}</p>
 	{% else %}
-	<img src="https://cdn.discordapp.com/avatars/{{ user['id'] }}/{{ user['avatar'] }}" alt="user_icon" style="border-radius: 50%;"> Welcome, {{ user['username'] }}!
+		{% if user['avatar'] %}
+			<img src="https://cdn.discordapp.com/avatars/{{ user['id'] }}/{{ user['avatar'] }}" alt="user_icon" style="border-radius: 50%;"> 
+		{% endif %}
+		<p>  Welcome, {{ user['username'] }}! </p>
+		{% for bot in bots %}
+		<h1>
+			{{ bot.name }}
+			<form action="/reset?{{ user.id }}&{{ bot.bot_id }}" method="post">
+				<input type="submit" value="RESET">
+			</form>
+		</h1>
+		{% endfor %}
 	{% endif %}
-	{% for bot in bots %}
-	<h1>{{ bot.name }}</h1>
-	{% endfor %}
 </h1>
 {% endblock %}

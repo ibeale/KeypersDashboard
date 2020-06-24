@@ -56,7 +56,7 @@ def home():
 @dashboard.route('/dashboard')
 def dash():
     role = "Member"
-    error = Markup('You are not a part of our discord. Click <a href="https://discord.gg/JC8nE3">here to join.</a>')
+    notInDiscord = Markup('You are not a part of our discord. Click <a href="https://discord.gg/JC8nE3">here to join.</a>')
 
     if 'oauth2_token' not in session.keys():
         scope = request.args.get('scope','identify email connections guilds guilds.join')
@@ -67,28 +67,48 @@ def dash():
 
 
     else:
+        error=None
+        bots = None
         discord = make_session(token=session.get('oauth2_token'))
         user = discord.get(API_BASE_URL + '/users/@me').json()
         guilds = discord.get(API_BASE_URL + '/users/@me/guilds').json()
         connections = discord.get(API_BASE_URL + '/users/@me/connections').json()
         userDB = User.query.filter_by(discordID = user['id']).first()
-        if userDB == None:
-            userDB = Admin.query.filter_by(discordID = user['id']).first()
-            if userDB == None:
-                error = "Could not find user."
-            else:
-                role = "Administrator"
+        adminDB = Admin.query.filter_by(discordID = user['id']).first()
+        
         if "message" in user.keys():
-                error = user['message']
-            
-        else:
+            error = user['message']
+            return render_template("dashboard.html", user=user, error=error, role=role, bots=bots)
+
+        elif userDB:
+            print(f"Found user! {userDB}")
             for i in guilds:
-                if i['id'] == "644685851812429874":
-                    error = None
-        if role == "Administrator":
-            bots = userDB.botsManaged
+                if i['id'] == "698641287229866125":
+                    notInDiscord = None
+            bots = []
+            keys =  userDB.api_keys
+            for key in keys:
+                bots.append(Bot.query.filter_by(bot_id=key.bot_id).first())
+            print(f"Bots: {bots}")
+        elif adminDB:
+            notInDiscord = None
+            bots = adminDB.botsManaged
+            role="Administrator"
         else:
-            bots = userDB.botsRented
+            new_user = User(email=user['email'], username=f"{user['username']}#{user['discriminator']}", discordID=user['id'])
+            try:
+                print(f"Creating user {new_user}")
+                db.session.add(new_user)
+                db.session.commit()
+                bots = []
+                keys =  userDB.api_keys
+                for key in keys:
+                    bots.append(Bot.query.filter_by(bot_id=key.bot_id).first())
+                print(f"Bots: {bots}")
+            except Exception as e:
+                print(e)
+                error = "Error creating User!"
+            
 
 
     # return jsonify(user=user,guilds=guilds,connections=connections, role=role)
