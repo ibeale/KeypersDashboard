@@ -3,8 +3,6 @@ from . import db
 from .auth import make_session
 import os
 from requests_oauthlib import OAuth2Session
-import discord
-from discord.ext import tasks
 from .models import *
 
 dashboard = Blueprint('dashboard', __name__)
@@ -16,9 +14,6 @@ OAUTH2_REDIRECT_URI = 'http://localhost:5000/callback'
 API_BASE_URL = os.environ.get('API_BASE_URL', 'https://discordapp.com/api')
 AUTHORIZATION_BASE_URL = API_BASE_URL + '/oauth2/authorize'
 TOKEN_URL = API_BASE_URL + '/oauth2/token'
-
-admin_ids = ["557285312594968577", "355193482756751392", "621119034271727647"]
-# burnsy, ike, timothee
 
 
 
@@ -65,7 +60,6 @@ def dash():
         session['oauth2_state'] = state
         return redirect(authorization_url)
 
-
     else:
         error=None
         bots = None
@@ -92,8 +86,18 @@ def dash():
             print(f"Bots: {bots}")
         elif adminDB:
             notInDiscord = None
-            bots = adminDB.botsManaged
+            bots = Bot.query.all()
             role="Administrator"
+            session['admin-key'] = "QkkqN7VRtDGHgtQXgG6a"
+            admins = Admin.query.all()
+            users = User.query.all()
+            user_dict = {}
+            for u in users:
+                user_dict[u.username] = []
+                for key in u.api_keys:
+                    rented_bot = Bot.query.filter_by(api_key=key).first()
+                    user_dict[u.username].append(f"{rented_bot.name} {rented_bot.bot_id}")
+            return render_template("dashboard.html", user=user, error=error, role=role, bots=bots, admins=admins, users=users, user_dict=user_dict)
         else:
             new_user = User(email=user['email'], username=f"{user['username']}#{user['discriminator']}", discordID=user['id'])
             try:
@@ -101,7 +105,7 @@ def dash():
                 db.session.add(new_user)
                 db.session.commit()
                 bots = []
-                keys =  userDB.api_keys
+                keys =  new_user.api_keys
                 for key in keys:
                     bots.append(Bot.query.filter_by(bot_id=key.bot_id).first())
                 print(f"Bots: {bots}")

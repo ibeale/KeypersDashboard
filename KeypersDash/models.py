@@ -16,17 +16,11 @@ class User(db.Model):
     def __repr__(self):
         return(f"User: {self.username} - DiscordID: {self.discordID} - Email: {self.email}")
 
-management = db.Table('management',
-    db.Column('admin_id', db.Integer, db.ForeignKey('admin.admin_id')), 
-    db.Column('bot_id', db.Integer, db.ForeignKey('bot.bot_id'))
-)
-
 class Admin(db.Model):
     admin_id = db.Column(db.Integer, primary_key=True) 
     email = db.Column(db.String(100), unique=True, nullable=False)
     username = db.Column(db.String(100), unique=True, nullable=False)
     discordID = db.Column(db.String(100), unique=True, nullable=False)
-    botsManaged = db.relationship('Bot', secondary=management, backref=db.backref("managed_by", lazy='dynamic'))
     def __repr__(self):
         return(f"Admin: {self.username} - DiscordID: {self.discordID} - Email: {self.email}")
 

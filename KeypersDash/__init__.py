@@ -18,7 +18,7 @@ def create_app():
 	from .dashboard import dashboard as dashboard_blueprint
 	app.register_blueprint(dashboard_blueprint)
 
-	from .resetAPI import resetAPI as resetAPI_blueprint
-	app.register_blueprint(resetAPI_blueprint)
+	from .restAPI import restAPI as restAPI_blueprint
+	app.register_blueprint(restAPI_blueprint)
 
 	return app

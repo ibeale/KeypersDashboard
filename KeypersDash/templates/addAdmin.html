@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="/addAdmin" method="post">
+	<input type="email" name="email" placeholder="Email">
+	<input type="text" name="username" placeholder="Username">
+	<input type="text" name="discordID" placeholder="Discord ID">
+	<input type="submit" value="Add Admin">
+</form>
+{% endblock %}

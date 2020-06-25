@@ -7,9 +7,8 @@ def resetCyber(em, pw):
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
     options.add_argument('window-size=1920,1080')
-    driver = webdriver.Chrome('./chromedriver.exe', options=options)
+    driver = webdriver.Chrome('./chromedriver.exe')
     driver.get("https://cybersole.io/dashboard")
-    print(f"HELLOISAAC: {driver.current_url}")
     sleep(5)
     email = driver.find_element_by_xpath("/html/body/div/div[2]/div/div[2]/div/div/form/div/div/div[1]/div[3]/div[1]/div/input")
     password = driver.find_element_by_xpath("/html/body/div/div[2]/div/div[2]/div/div/form/div/div/div[1]/div[3]/div[2]/div/input")
@@ -19,6 +18,16 @@ def resetCyber(em, pw):
     password.send_keys(pw)
     password.send_keys(Keys.RETURN)
     sleep(5)
+    captcha = driver.find_elements_by_css_selector("div.g-recaptcha")
+    if len(captcha) != 0:
+        print("Captcha!")
+        input("Press enter once email has been confirmed")
+    new_ip = driver.find_elements_by_css_selector("span.errorSeparator-30Q6aR")
+    if len(new_ip) != 0:
+        print("New login, email verification required.")
+        input("Press enter once email has been confirmed")
+    # print(driver.
+    
     authorize = driver.find_element_by_xpath("/html/body/div/div[2]/div/div[2]/div/div/div[2]/button[2]")
     authorize.click()
     sleep(5)
