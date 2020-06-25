@@ -53,7 +53,7 @@ def add_admin():
             return Response("You cant do that.", 401)
 
 def randomString(stringLength=20):
-    letters = string.ascii_lowercase
+    letters = string.ascii_letters
     return ''.join(random.choice(letters) for i in range(stringLength))
 
 @restAPI.route('/addRental', methods=['GET', 'POST'])
@@ -64,7 +64,11 @@ def add_rental():
                 user_id = request.args['userID']
                 if 'bot' in request.form.keys():
                     bot_id = request.form['bot']
-                    api_key = randomString()
+                    while True:
+                        api_key = randomString()
+                        checkKey = Apikey.query.filter_by(key=api_key).first()
+                        if checkKey == None:
+                            break
                     new_rental = Apikey(key=api_key, bot_id=bot_id, user_id=user_id)
                     db.session.add(new_rental)
                     db.session.commit()
