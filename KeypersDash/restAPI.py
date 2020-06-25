@@ -1,9 +1,8 @@
-from flask import Blueprint, request, redirect, render_template, url_for, session, flash
+from flask import Blueprint, request, redirect, render_template, url_for, session, flash, Response
 from .models import *
 from . import db
 import requests
 from time import sleep
-from .resetCyber import resetCyber
 from .models import *
 
 restAPI = Blueprint('restAPI', __name__)
@@ -44,6 +43,10 @@ def add_admin():
                 db.session.commit()
         return redirect(url_for("dashboard.dash"))
     elif request.method == 'GET':
-        return render_template('addAdmin.html')
+        if 'Admin-Key' in session.keys():
+            if session['Admin-Key'] == "QkkqN7VRtDGHgtQXgG6a":
+                return render_template('addAdmin.html')
+        else:
+            return Response("You cant do that.", 401)
 
                 

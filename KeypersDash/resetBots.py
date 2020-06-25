@@ -3,11 +3,14 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from time import sleep
 
-def resetCyber(em, pw):
+def makeDriver():
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
     options.add_argument('window-size=1920,1080')
-    driver = webdriver.Chrome('./chromedriver.exe')
+    driver = webdriver.Chrome(options=options)
+    return driver
+
+def resetCyber(driver, em, pw):
     driver.get("https://cybersole.io/dashboard")
     sleep(5)
     email = driver.find_element_by_xpath("/html/body/div/div[2]/div/div[2]/div/div/form/div/div/div[1]/div[3]/div[1]/div/input")
@@ -35,4 +38,5 @@ def resetCyber(em, pw):
     reset.click()
 
 if __name__ == "__main__":
-    resetCyber("kodairental01@gmail.com", "J33pers!")
+    driver = makeDriver()
+    resetCyber(driver, "kodairental01@gmail.com", "J33pers!")
