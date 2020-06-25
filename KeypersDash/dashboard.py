@@ -52,7 +52,6 @@ def home():
 def dash():
     role = "Member"
     notInDiscord = Markup('You are not a part of our discord. Click <a href="https://discord.gg/JC8nE3">here to join.</a>')
-
     if 'oauth2_token' not in session.keys():
         scope = request.args.get('scope','identify email connections guilds guilds.join')
         discord = make_session(scope=scope.split(' '))
@@ -76,6 +75,8 @@ def dash():
 
         elif userDB:
             print(f"Found user! {userDB}")
+            if 'admin-key' in session.keys():
+                session.pop('admin-key')
             for i in guilds:
                 if i['id'] == "698641287229866125":
                     notInDiscord = None

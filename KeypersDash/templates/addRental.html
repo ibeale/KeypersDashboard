@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="/addRental?userID={{ user_id }}" method="post">
+	<select id="bot" name="bot">
+        {% for bot in bots %}
+        {% if not bot.api_key %}
+        <option value="{{ bot.bot_id }}">{{ bot.name }} {{ bot.bot_id }}</option>
+        {% endif %}
+        {% endfor %}
+    </select>
+    <input type="submit" value="Add">
+</form>
+{% endblock %}

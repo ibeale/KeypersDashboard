@@ -27,6 +27,9 @@ class Admin(db.Model):
 class Bot(db.Model):
     bot_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
+    bot_key = db.Column(db.String(100), nullable=False)
+    bot_discord_email = db.Column(db.String(100), nullable=False)
+    bot_discord_pass = db.Column(db.String(100), nullable=False)
     api_key = db.relationship('Apikey', backref="bot", uselist=False)
 
     def __repr__(self):
