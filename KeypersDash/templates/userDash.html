@@ -4,6 +4,15 @@
     Member
 </h1>
 <div class="table-container">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
     <table class="table is-fullwidth" align="left">
         <tr>
             <th>Bot ID</th>
