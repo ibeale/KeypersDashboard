@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="/removeAdmin" method="post">
+    <div class="select">
+        <select id="admin" name="admin">
+            {% for admin in admins %}
+            <option value="{{ admin.admin_id }}">{{ admin.username }} {{ admin.admin_id }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button class="button is-danger" type="submit">Remove</button>
+
+</form>
+{% endblock %}

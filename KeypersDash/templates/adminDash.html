@@ -1,0 +1,110 @@
+{% extends "dashboard.html" %}
+{% block dashboard %}
+<h1 class="title">
+    Administrator
+</h1>
+
+<a href="/addAdmin" class="button is-warning">
+    Add an Administrator
+</a>
+<a href="/removeAdmin" class="button is-warning">
+    Remove an Administrator
+</a>
+<a href="/addBot" class="button is-success">
+    Add a Bot
+</a>
+<a href="/removeBot" class="button is-danger">
+    Remove a Bot
+</a>
+<br /><br /><br />
+<div class="table-container">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    <table class="table is-fullwidth" align="left">
+        <tr>
+            <th>Bot ID</th>
+            <th>Bot Name</th>
+            <th>Bot Discord Email</th>
+            <th>Bot Discord Pass</th>
+            <th>Bot Key</th>
+            <th>Availability</th>
+            <th>Reset Bot</th>
+        </tr>
+        {% for bot in bots %}
+        <tr>
+            <td>{{ bot.bot_id }}</td>
+            <td>{{ bot.name }}</td>
+            <td>{{ bot.bot_discord_email }}</td>
+            <td>{{ bot.bot_discord_pass }}</td>
+            <td>{{ bot.availability() }}</td>
+            <td>{{ bot.bot_key }}</td>
+            <td>
+                <form action="/reset?bid={{ bot.bot_id }}" method="post">
+                    <button type="submit " class="button is-danger is-small" onclick="addSpin(this)">
+                        Reset {{ bot.name }}
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
+<br />
+<h2>Administrators</h2>
+<table class="table is-fullwidth" align="left">
+    <tr>
+        <th>Admin ID</th>
+        <th>Admin Username</th>
+        <th>Admin Email</th>
+        <th>Admin DiscordID</th>
+    </tr>
+    {% for admin in admins %}
+    <tr>
+        <td>{{ admin.admin_id }}</td>
+        <td>{{ admin.username }}</td>
+        <td>{{ admin.email }}</td>
+        <td>{{ admin.discordID }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<h2>Customers</h2>
+<div class="table-container">
+    <table class="table is-fullwidth" align="left">
+        <tr>
+            <th>User ID</th>
+            <th>Username</th>
+            <th>User Email</th>
+            <th>User DiscordID</th>
+            <th>Bots Rented</th>
+            <th>Manage</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.user_id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.discordID }}</td>
+            <td>{{ user_dict[user.username] }}</td>
+            <td>
+                <a href="/addRental?userID={{user.user_id}}" class="button is-success is-small">Add Rental</a>
+                {% if user.api_keys %}
+                <a href="/removeRental?userID={{user.user_id}}" class="button is-danger is-small">Remove Rental</button>
+                    {% else %}
+                    <button href="/removeRental?userID={{user.user_id}}" class="button is-danger is-small"
+                        disabled>Remove Rental</button>
+                    {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

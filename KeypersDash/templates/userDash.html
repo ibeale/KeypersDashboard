@@ -1,0 +1,31 @@
+{% extends "dashboard.html" %}
+{% block dashboard %}
+<h1 class="title">
+    Member
+</h1>
+<div class="table-container">
+    <table class="table is-fullwidth" align="left">
+        <tr>
+            <th>Bot ID</th>
+            <th>Bot Name</th>
+            <th>Bot Key</th>
+            <th>Reset Bot</th>
+        </tr>
+        {% for bot in bots %}
+        <tr>
+            <td>{{ bot.bot_id }}</td>
+            <td>{{ bot.name }}</td>
+            <td>{{ bot.bot_key }}</td>
+            <td>
+                <form action="/reset?key={{ bot.api_key.key }}" method="post">
+                    <button type="submit " class="button is-danger is-small" onclick="addSpin(this)">
+                        Reset {{ bot.name }}
+                    </button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+
+{% endfor %}
+{% endblock %}

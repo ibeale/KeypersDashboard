@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="/addBot?userID={{ user_id }}" method="post">
+	<div class="field">
+		<label class="label">Bot Name</label>
+		<div class="control">
+			<input class="input" type="text" name="name" placeholder="Bot Name" />
+		</div>
+	</div>
+	<div class="field">
+		<label class="label">Bot Name</label>
+		<div class="control">
+			<input class="input" type="text" name="bot_key" placeholder="Bot Key" />
+		</div>
+	</div>
+	<div class="field">
+		<label class="label">Bot Discord Email</label>
+		<div class="control">
+			<input class="input" type="email" name="bot_discord_email" placeholder="Email" />
+		</div>
+	</div>
+	<div class="field">
+		<label class="label">Discord Pass</label>
+		<div class="control">
+			<input class="input" type="text" name="bot_discord_pass" placeholder="Password" />
+		</div>
+	</div>
+	<div class="field is-grouped">
+		<div class="control">
+			<button class="button is-danger" type="submit">Add Bot</button>
+		</div>
+	</div>
+</form>
+{% endblock %}

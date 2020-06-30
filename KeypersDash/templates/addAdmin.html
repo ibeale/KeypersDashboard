@@ -1,9 +1,27 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <form action="/addAdmin" method="post">
-	<input type="email" name="email" placeholder="Email">
-	<input type="text" name="username" placeholder="Username">
-	<input type="text" name="discordID" placeholder="Discord ID">
-	<input type="submit" value="Add Admin">
+	<div class="field">
+		<label class="label">Email</label>
+		<div class="control">
+			<input class="input" type="email" name="email" placeholder="Email" />
+		</div>
+	</div>
+	<div class="field">
+		<label class="label">Username</label>
+		<div class="control">
+			<input class="input" type="text" name="username" placeholder="Username" />
+		</div>
+	</div>
+	<div class="field">
+		<label class="label">Discord ID</label>
+		<div class="control">
+			<input class="input" type="text" name="discordID" placeholder="Discord ID" />
+		</div>
+	</div>
+	<div class="field is-grouped">
+		<div class="control">
+			<button class="button is-danger" type="submit">Add Administrator</button>
+		</div>
+	</div>
 </form>
 {% endblock %}
