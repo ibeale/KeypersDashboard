@@ -20,11 +20,11 @@ def discordLogin(driver, em, pw):
     while len(email) == 0:
         if time.time() > timeout:
             return "Timeout"
-        email = driver.find_elements_by_xpath(
-            "/html/body/div/div[2]/div/div[2]/div/div/form/div/div/div[1]/div[3]/div[1]/div/input")
+        email = driver.find_elements_by_name(
+            "email")
     email = email[0]
-    password = driver.find_element_by_xpath(
-        "/html/body/div/div[2]/div/div[2]/div/div/form/div/div/div[1]/div[3]/div[2]/div/input")
+    password = driver.find_element_by_name(
+        "password")
     email.clear()
     email.send_keys(em)
     password.clear()
@@ -34,7 +34,8 @@ def discordLogin(driver, em, pw):
     captcha = driver.find_elements_by_css_selector("div.g-recaptcha")
     if len(captcha) != 0:
         print("Captcha!")
-        return "There was an error resetting Cyber. [Captcha]"
+        input()
+        # return "There was an error resetting Cyber. [Captcha]"
     new_ip = driver.find_elements_by_css_selector("span.errorSeparator-30Q6aR")
     if len(new_ip) != 0:
         print("New login, email verification required.")
@@ -53,7 +54,9 @@ def discordLogin(driver, em, pw):
 def resetCyber(em, pw):
     driver = makeDriver()
     driver.get("https://cybersole.io/dashboard")
-    discordLogin(driver, em, pw)
+    error = discordLogin(driver, em, pw)
+    if error:
+        return error
     reset = []
     timeout = time.time() + 60
     while len(reset) == 0:
@@ -77,7 +80,9 @@ def resetKodai(em, pw):
             "/html/body/div[1]/div/div[2]/div[2]/div[2]/div[2]/div[2]/button")
     discord_button = discord_button[0]
     discord_button.click()
-    discordLogin(driver, em, pw)
+    error = discordLogin(driver, em, pw)
+    if error:
+        return error
     found = False
     while found == False:
         if time.time() > timeout:
