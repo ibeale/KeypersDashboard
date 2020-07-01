@@ -3,20 +3,26 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from time import sleep
 import requests
+import time
 
 
 def makeDriver():
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
     options.add_argument('window-size=1920,1080')
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.Chrome()
     return driver
 
 
 def discordLogin(driver, em, pw):
-    sleep(5)
-    email = driver.find_element_by_xpath(
-        "/html/body/div/div[2]/div/div[2]/div/div/form/div/div/div[1]/div[3]/div[1]/div/input")
+    email = []
+    timeout = time.time() + 60
+    while len(email) == 0:
+        if time.time() > timeout:
+            return "Timeout"
+        email = driver.find_elements_by_xpath(
+            "/html/body/div/div[2]/div/div[2]/div/div/form/div/div/div[1]/div[3]/div[1]/div/input")
+    email = email[0]
     password = driver.find_element_by_xpath(
         "/html/body/div/div[2]/div/div[2]/div/div/form/div/div/div[1]/div[3]/div[2]/div/input")
     email.clear()
@@ -33,42 +39,70 @@ def discordLogin(driver, em, pw):
     if len(new_ip) != 0:
         print("New login, email verification required.")
         return "There was an error resetting Cyber. [Server IP]"
-
-    authorize = driver.find_element_by_xpath(
-        "/html/body/div/div[2]/div/div[2]/div/div/div[2]/button[2]")
+    authorize = []
+    while len(authorize) == 0:
+        if time.time() > timeout:
+            return "Timeout"
+        authorize = driver.find_elements_by_xpath(
+            "/html/body/div/div[2]/div/div[2]/div/div/div[2]/button[2]")
+    authorize=authorize[0]
     authorize.click()
-    sleep(5)
     return 0
 
 
 def resetCyber(em, pw):
     driver = makeDriver()
     driver.get("https://cybersole.io/dashboard")
-    sleep(5)
     discordLogin(driver, em, pw)
-    reset = driver.find_element_by_xpath(
-        "/html/body/div[1]/div/div[4]/div/div/div/div[5]/div[1]/div")
+    reset = []
+    timeout = time.time() + 60
+    while len(reset) == 0:
+        if time.time() > timeout:
+            return "Timeout"
+        reset = driver.find_elements_by_xpath(
+            "/html/body/div[1]/div/div[4]/div/div/div/div[5]/div[1]/div")
+    reset = reset[0]
     reset.click()
 
 
 def resetKodai(em, pw):
     driver = makeDriver()
     driver.get("https://hub.kodai.io/auth")
-    discord_button = driver.find_element_by_xpath(
-        "/html/body/div[1]/div/div[2]/div[2]/div[2]/div[2]/div[2]/button")
+    discord_button = []
+    timeout = time.time() + 60
+    while len(discord_button) == 0:
+        if time.time() > timeout:
+            return "Timeout"
+        discord_button = driver.find_elements_by_xpath(
+            "/html/body/div[1]/div/div[2]/div[2]/div[2]/div[2]/div[2]/button")
+    discord_button = discord_button[0]
     discord_button.click()
-    sleep(5)
     discordLogin(driver, em, pw)
+    found = False
+    while found == False:
+        if time.time() > timeout:
+            return "Timeout"
+        for cookie in driver.get_cookies():
+            if cookie['name'] == "kodai_dashboard":
+                print("Found!")
+                found = True
+    print("exit while")
     driver.get("https://hub.kodai.io/management")
-    sleep(2)
-    deactivate = driver.find_element_by_xpath(
-        "/html/body/div[1]/div/div[2]/div[2]/div[2]/div[4]/div/span/div[1]/button[2]")
-    deactivate.click()
-    sleep(2)
-    confirm = driver.find_element_by_xpath(
-        "/html/body/div[2]/div/div/div/div[2]/button[2]")
-    confirm.click()
-    sleep(2)
+    deactivate = []
+    while len(deactivate) == 0:
+        if time.time() > timeout:
+            return "Timeout"
+        deactivate = driver.find_elements_by_xpath(
+            "/html/body/div[1]/div/div[2]/div[2]/div[2]/div[4]/div/span/div[1]/button[2]")
+    deactivate[0].click()
+    confirm = []
+    while len(confirm) == 0:
+        if time.time() > timeout:
+            return "Timeout"
+        confirm = driver.find_elements_by_xpath(
+            "/html/body/div[2]/div/div/div/div[2]/button[2]")
+    confirm[0].click()
+    sleep(5)
     failed = driver.find_elements_by_xpath(
         "//*[contains(text(), 'Failed to Reset License Key')]")
     if failed:
