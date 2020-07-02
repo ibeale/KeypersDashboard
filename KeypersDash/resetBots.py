@@ -44,8 +44,8 @@ def discordLogin(driver, em, pw):
     while len(authorize) == 0:
         if time.time() > timeout:
             return "Timeout"
-        authorize = driver.find_elements_by_xpath(
-            "/html/body/div/div[2]/div/div[2]/div/div/div[2]/button[2]")
+        authrize = driver.find_elements_by_css_selector(
+        "div.contents-18-Yxp")
     authorize=authorize[0]
     authorize.click()
     return 0
@@ -89,23 +89,21 @@ def resetKodai(em, pw):
             return "Timeout"
         for cookie in driver.get_cookies():
             if cookie['name'] == "kodai_dashboard":
-                print("Found!")
                 found = True
-    print("exit while")
     driver.get("https://hub.kodai.io/management")
     deactivate = []
     while len(deactivate) == 0:
         if time.time() > timeout:
             return "Timeout"
         deactivate = driver.find_elements_by_xpath(
-            "/html/body/div[1]/div/div[2]/div[2]/div[2]/div[4]/div/span/div[1]/button[2]")
+            "//*[contains(text(), 'Deactivate')]")
     deactivate[0].click()
     confirm = []
     while len(confirm) == 0:
         if time.time() > timeout:
             return "Timeout"
         confirm = driver.find_elements_by_xpath(
-            "/html/body/div[2]/div/div/div/div[2]/button[2]")
+            "//*[contains(text(), 'Reset')]")
     confirm[0].click()
     sleep(5)
     failed = driver.find_elements_by_xpath(
