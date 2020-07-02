@@ -44,8 +44,8 @@ def discordLogin(driver, em, pw):
     while len(authorize) == 0:
         if time.time() > timeout:
             return "Timeout"
-        authrize = driver.find_elements_by_css_selector(
-        "div.contents-18-Yxp")
+        authorize = driver.find_elements_by_css_selector(
+        "button.lookFilled-1Gx00P>div.contents-18-Yxp")
     authorize=authorize[0]
     authorize.click()
     return 0
