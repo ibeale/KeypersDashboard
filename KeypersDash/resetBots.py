@@ -34,8 +34,7 @@ def discordLogin(driver, em, pw):
     captcha = driver.find_elements_by_css_selector("div.g-recaptcha")
     if len(captcha) != 0:
         print("Captcha!")
-        input()
-        # return "There was an error resetting Cyber. [Captcha]"
+        return "There was an error resetting Cyber. [Captcha]"
     new_ip = driver.find_elements_by_css_selector("span.errorSeparator-30Q6aR")
     if len(new_ip) != 0:
         print("New login, email verification required.")
