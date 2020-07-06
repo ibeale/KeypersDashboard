@@ -19,7 +19,8 @@ def discordLogin(driver, em, pw):
     timeout = time.time() + 60
     while len(email) == 0:
         if time.time() > timeout:
-            return "Timeout"
+            print(driver.page_source)
+            return "Timeout Discord Login"
         email = driver.find_elements_by_name(
             "email")
     email = email[0]
@@ -42,7 +43,7 @@ def discordLogin(driver, em, pw):
     authorize = []
     while len(authorize) == 0:
         if time.time() > timeout:
-            return "Timeout"
+            return "Timeout Discord Auth"
         authorize = driver.find_elements_by_css_selector(
         "button.lookFilled-1Gx00P>div.contents-18-Yxp")
     authorize=authorize[0]
@@ -52,15 +53,15 @@ def discordLogin(driver, em, pw):
 
 def resetCyber(em, pw):
     driver = makeDriver()
+    driver.get("https://cybersole.io")
+    driver.add_cookie({'domain': 'cybersole.io', 'expiry': 1625538525, 'httpOnly': True, 'name': 'dashboard_session', 'path': '/', 'sameSite': 'None', 'secure': False, 'value': 'CfDJ8LKwgtB2ErpHr7t65tLDoWFDswS49s-50XJ4j6yId80z53_yweh0Kg7FSPpqDJNaZkjKw96rfPT-ZSjB1zAJZP2y3EN6pDWqbOqRXYphIlZJYwL3eolvW78M3ekN6I2uTT0iSnGBTFyQrR1Wtg_j8k6gqXHuOQJkM7XqHPMxF4c7XJgYSoYqkqEULB8PwL1BEcQFEANrdP2aw8GYKVxFwuhOLRjvdPMMlld5OboIYGW-FR594fvxRQBOjctXBu7v67OzxeCoQIFyThECvbVBvFXeIKlFhC3i-8_QlMf2D_1wlKLHzsZNnvAHkXZJENqQV-IE1JLdX-FFmy7fC2mHSSBHwhUNQ6c50BoVZfU9eOX6qD0RopKq85z8oYAZ4JhrLIyWI5aVXSEMW_iqw5ATYyiwoVrC5fecti_0G9XrNmnUPPwfhLhBWugPt4Mz9OJxe_Ofq5sNjKTnKEQKjiio5d3K6e4zeezONWEKY5Ie_bZIfDbzrIvD23uHfuG93TevNZIEt2QdV7jCDHZ9wvkLQqTML3UPUvGl6xGbsMDlmedP8PCYAK1dlCmZyOR5tnmHEgj7OYlgkLFm_zl68Y9ZVio24RYDCr9a1B5zKRsWEL0gtSfi7c6Ysro1Q9EWpUhaYxpD-Bw5Pg6Oln7DjmyUHqmMtVbY9E3RyR7CYtYNROaK1M7XjKSGDAdVcqUJqtFEGg'})
     driver.get("https://cybersole.io/dashboard")
-    error = discordLogin(driver, em, pw)
-    if error:
-        return error
+    # error = discordLogin(driver, em, pw)
     reset = []
     timeout = time.time() + 60
     while len(reset) == 0:
         if time.time() > timeout:
-            return "Timeout"
+            return "Timeout Cyber"
         reset = driver.find_elements_by_xpath(
             "/html/body/div[1]/div/div[4]/div/div/div/div[5]/div[1]/div")
     reset = reset[0]
@@ -74,7 +75,7 @@ def resetKodai(em, pw):
     timeout = time.time() + 60
     while len(discord_button) == 0:
         if time.time() > timeout:
-            return "Timeout"
+            return "Timeout Kodai Discord Login"
         discord_button = driver.find_elements_by_xpath(
             "/html/body/div[1]/div/div[2]/div[2]/div[2]/div[2]/div[2]/button")
     discord_button = discord_button[0]
@@ -85,7 +86,7 @@ def resetKodai(em, pw):
     found = False
     while found == False:
         if time.time() > timeout:
-            return "Timeout"
+            return "Timeout Kodai Cookie"
         for cookie in driver.get_cookies():
             if cookie['name'] == "kodai_dashboard":
                 found = True
@@ -93,14 +94,14 @@ def resetKodai(em, pw):
     deactivate = []
     while len(deactivate) == 0:
         if time.time() > timeout:
-            return "Timeout"
+            return "Timeout Kodai Reset 1"
         deactivate = driver.find_elements_by_xpath(
             "//*[contains(text(), 'Deactivate')]")
     deactivate[0].click()
     confirm = []
     while len(confirm) == 0:
         if time.time() > timeout:
-            return "Timeout"
+            return "Timeout Kodai Reset 2"
         confirm = driver.find_elements_by_xpath(
             "//*[contains(text(), 'Reset')]")
     confirm[0].click()
@@ -114,4 +115,4 @@ def resetKodai(em, pw):
 
 
 if __name__ == "__main__":
-    resetKodai("kodairental01@gmail.com", "J33pers!")
+    resetCyber("kodairental01@gmail.com", "J33pers!")
