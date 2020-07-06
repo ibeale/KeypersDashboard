@@ -35,6 +35,7 @@
             <th>Bot Discord Email</th>
             <th>Bot Discord Pass</th>
             <th>Bot Key</th>
+            <th>Cookie Status</th>
             <th>Availability</th>
             <th>Reset Bot</th>
         </tr>
@@ -45,7 +46,9 @@
             <td>{{ bot.bot_discord_email }}</td>
             <td>{{ bot.bot_discord_pass }}</td>
             <td>{{ bot.bot_key }}</td>
+            <td>{{True if bot.bot_cookie else False}}</td>
             <td>{{ bot.availability() }}</td>
+            {% if bot.bot_cookie %}
             <td>
                 <form action="/reset?bid={{ bot.bot_id }}" method="post">
                     <button type="submit " class="button is-danger is-small" onclick="addSpin(this)">
@@ -53,6 +56,15 @@
                     </button>
                 </form>
             </td>
+            {% else %}
+            <td>
+                <form action="/reset?bid={{ bot.bot_id }}" method="post">
+                    <button disabled type="submit " class="button is-danger is-small" onclick="addSpin(this)">
+                        Reset {{ bot.name }} 
+                    </button>
+                </form>
+            </td>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>

@@ -7,6 +7,7 @@ from .models import *
 import string
 import random
 from .resetBots import *
+from json import loads
 
 restAPI = Blueprint('restAPI', __name__)
 
@@ -23,13 +24,13 @@ def reset():
     if checkAdmin(session):
         if 'bid' in request.args.keys():
             bot = Bot.query.filter_by(bot_id=request.args['bid']).first()
+            print(bot.bot_cookie)
+            bot_cookie = loads(bot.bot_cookie)
             if "cyber" in bot.name.lower():
-                failed = resetCyber(bot.bot_discord_email,
-                                    bot.bot_discord_pass)
+                failed = resetCyber(bot_cookie)
 
             elif "kodai" in bot.name.lower():
-                failed = resetKodai(bot.bot_discord_email,
-                                    bot.bot_discord_pass)
+                failed = resetKodai(bot_cookie)
 
             if failed:
                 flash(failed)
@@ -42,12 +43,10 @@ def reset():
         if api_key:
             bot = Bot.query.filter_by(api_key=api_key).first()
             if "cyber" in bot.name.lower():
-                failed = resetCyber(bot.bot_discord_email,
-                                    bot.bot_discord_pass)
+                failed = resetCyber(bot.bot_cookie)
 
             elif "kodai" in bot.name.lower():
-                failed = resetKodai(bot.bot_discord_email,
-                                    bot.bot_discord_pass)
+                failed = resetKodai(bot.bot_cookie)
 
             if failed:
                 flash(failed)

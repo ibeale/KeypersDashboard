@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from time import sleep
 import requests
 import time
+import json
 
 
 def makeDriver():
@@ -51,10 +52,10 @@ def discordLogin(driver, em, pw):
     return 0
 
 
-def resetCyber(em, pw):
+def resetCyber(bot_cookie):
     driver = makeDriver()
     driver.get("https://cybersole.io")
-    driver.add_cookie({'domain': 'cybersole.io', 'expiry': 1625538525, 'httpOnly': True, 'name': 'dashboard_session', 'path': '/', 'sameSite': 'None', 'secure': False, 'value': 'CfDJ8LKwgtB2ErpHr7t65tLDoWFDswS49s-50XJ4j6yId80z53_yweh0Kg7FSPpqDJNaZkjKw96rfPT-ZSjB1zAJZP2y3EN6pDWqbOqRXYphIlZJYwL3eolvW78M3ekN6I2uTT0iSnGBTFyQrR1Wtg_j8k6gqXHuOQJkM7XqHPMxF4c7XJgYSoYqkqEULB8PwL1BEcQFEANrdP2aw8GYKVxFwuhOLRjvdPMMlld5OboIYGW-FR594fvxRQBOjctXBu7v67OzxeCoQIFyThECvbVBvFXeIKlFhC3i-8_QlMf2D_1wlKLHzsZNnvAHkXZJENqQV-IE1JLdX-FFmy7fC2mHSSBHwhUNQ6c50BoVZfU9eOX6qD0RopKq85z8oYAZ4JhrLIyWI5aVXSEMW_iqw5ATYyiwoVrC5fecti_0G9XrNmnUPPwfhLhBWugPt4Mz9OJxe_Ofq5sNjKTnKEQKjiio5d3K6e4zeezONWEKY5Ie_bZIfDbzrIvD23uHfuG93TevNZIEt2QdV7jCDHZ9wvkLQqTML3UPUvGl6xGbsMDlmedP8PCYAK1dlCmZyOR5tnmHEgj7OYlgkLFm_zl68Y9ZVio24RYDCr9a1B5zKRsWEL0gtSfi7c6Ysro1Q9EWpUhaYxpD-Bw5Pg6Oln7DjmyUHqmMtVbY9E3RyR7CYtYNROaK1M7XjKSGDAdVcqUJqtFEGg'})
+    driver.add_cookie(bot_cookie)
     driver.get("https://cybersole.io/dashboard")
     # error = discordLogin(driver, em, pw)
     reset = []
@@ -68,29 +69,12 @@ def resetCyber(em, pw):
     reset.click()
 
 
-def resetKodai(em, pw):
+def resetKodai(bot_cookie):
     driver = makeDriver()
-    driver.get("https://hub.kodai.io/auth")
-    discord_button = []
-    timeout = time.time() + 60
-    while len(discord_button) == 0:
-        if time.time() > timeout:
-            return "Timeout Kodai Discord Login"
-        discord_button = driver.find_elements_by_xpath(
-            "/html/body/div[1]/div/div[2]/div[2]/div[2]/div[2]/div[2]/button")
-    discord_button = discord_button[0]
-    discord_button.click()
-    error = discordLogin(driver, em, pw)
-    if error:
-        return error
-    found = False
-    while found == False:
-        if time.time() > timeout:
-            return "Timeout Kodai Cookie"
-        for cookie in driver.get_cookies():
-            if cookie['name'] == "kodai_dashboard":
-                found = True
+    driver.get("https://hub.kodai.io/")
+    driver.add_cookie(bot_cookie)
     driver.get("https://hub.kodai.io/management")
+    timeout = time.time() + 60
     deactivate = []
     while len(deactivate) == 0:
         if time.time() > timeout:
@@ -113,6 +97,34 @@ def resetKodai(em, pw):
         return "There was an error resetting Kodai. [Rate Limit]"
     return 0
 
+def getKodaiCookie(username, password):
+    driver = makeDriver()
+    driver.get("https://hub.kodai.io/auth")
+    discord_button = []
+    timeout = time.time() + 60
+    while len(discord_button) == 0:
+        discord_button = driver.find_elements_by_xpath(
+            "/html/body/div[1]/div/div[2]/div[2]/div[2]/div[2]/div[2]/button")
+    discord_button = discord_button[0]
+    discord_button.click()
+    error = discordLogin(driver, username, password)
+    found = False
+    while found == False:
+        for cookie in driver.get_cookies():
+            if cookie['name'] == "kodai_dashboard":
+                found = True
+    for cookie in driver.get_cookies():
+        if cookie['name'] == 'kodai_dashboard':
+            print(json.dumps(cookie))
+
+def getCyberCookie(username,password):
+    driver = makeDriver()
+    driver.get("https://cybersole.io/dashboard")
+    discordLogin(driver, username, password)
+    sleep(5)
+    for cookie in driver.get_cookies():
+        if cookie['name'] == "dashboard_session":
+            print(json.dumps(cookie))
 
 if __name__ == "__main__":
-    resetCyber("kodairental01@gmail.com", "J33pers!")
+    getCyberCookie("superchillin12@gmail.com", "J33pers!")

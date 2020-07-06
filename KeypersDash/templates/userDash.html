@@ -25,6 +25,7 @@
             <td>{{ bot.bot_id }}</td>
             <td>{{ bot.name }}</td>
             <td>{{ bot.bot_key }}</td>
+            {% if bot.bot_cookie %}
             <td>
                 <form action="/reset?key={{ bot.api_key.key }}" method="post">
                     <button type="submit " class="button is-danger is-small" onclick="addSpin(this)">
@@ -32,6 +33,15 @@
                     </button>
                 </form>
             </td>
+            {% else %}
+            <td>
+                <form action="/reset?key={{ bot.api_key.key }}" method="post">
+                    <button disabled type="submit " class="button is-danger is-small" onclick="addSpin(this)">
+                        Reset Unavailable
+                    </button>
+                </form>
+            </td>
+            {% endif %}
         </tr>
     </table>
 </div>
