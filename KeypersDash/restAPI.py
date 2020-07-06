@@ -85,10 +85,13 @@ def add_bot():
             bot_key = request.form['bot_key']
             bot_discord_email = request.form['bot_discord_email']
             bot_discord_pass = request.form['bot_discord_pass']
+            bot_cookie = request.form['bot_cookie']
+            if not bot_cookie:
+                bot_cookie = None
             exists = Bot.query.filter_by(bot_key=bot_key).first()
             if exists == None:
                 new_bot = Bot(name=name, bot_key=bot_key,
-                              bot_discord_email=bot_discord_email, bot_discord_pass=bot_discord_pass)
+                              bot_discord_email=bot_discord_email, bot_discord_pass=bot_discord_pass, bot_cookie=bot_cookie)
                 db.session.add(new_bot)
                 db.session.commit()
         return redirect(url_for("dashboard.dash"))

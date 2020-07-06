@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<form action="/addBot?userID={{ user_id }}" method="post">
+<form action="/addBot?userID={{ user_id }}" method="post" id="add_bot_form">
 	<div class="field">
 		<label class="label">Bot Name</label>
 		<div class="control">
@@ -28,7 +28,7 @@
 	<div class="field">
 		<label class="label">Bot Cookie</label>
 		<div class="control">
-			<textarea class="textarea" name="bot_cookie" form="usrform"></textarea>
+			<textarea class="textarea" name="bot_cookie" form="add_bot_form"></textarea>
 		</div>
 	</div>
 	<div class="field is-grouped">
