@@ -42,11 +42,12 @@ def reset():
         api_key = Apikey.query.filter_by(key=request.args['key']).first()
         if api_key:
             bot = Bot.query.filter_by(api_key=api_key).first()
+            bot_cookie = loads(bot.bot_cookie)
             if "cyber" in bot.name.lower():
-                failed = resetCyber(bot.bot_cookie)
+                failed = resetCyber(bot_cookie)
 
             elif "kodai" in bot.name.lower():
-                failed = resetKodai(bot.bot_cookie)
+                failed = resetKodai(bot_cookie)
 
             if failed:
                 flash(failed)
