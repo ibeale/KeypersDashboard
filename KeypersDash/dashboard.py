@@ -9,7 +9,7 @@ dashboard = Blueprint('dashboard', __name__)
 API_BASE_URL = os.environ.get('API_BASE_URL', 'https://discordapp.com/api')
 OAUTH2_CLIENT_ID = "724104767223234631"
 OAUTH2_CLIENT_SECRET = "LKVD3qQf5ehpr3FPCB3bTqeZT79Fy3dn"
-OAUTH2_REDIRECT_URI = 'http://localhost:5000/callback'
+OAUTH2_REDIRECT_URI = 'http://3.218.10.245:5000/callback'
 
 API_BASE_URL = os.environ.get('API_BASE_URL', 'https://discordapp.com/api')
 AUTHORIZATION_BASE_URL = API_BASE_URL + '/oauth2/authorize'
