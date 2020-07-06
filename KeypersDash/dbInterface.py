@@ -16,13 +16,16 @@ class User(db.Model):
     def __repr__(self):
         return(f"User: {self.username} - DiscordID: {self.discordID} - Email: {self.email}")
 
+
 class Admin(db.Model):
-    admin_id = db.Column(db.Integer, primary_key=True) 
+    admin_id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True, nullable=False)
     username = db.Column(db.String(100), unique=True, nullable=False)
     discordID = db.Column(db.String(100), unique=True, nullable=False)
+
     def __repr__(self):
         return(f"Admin: {self.username} - DiscordID: {self.discordID} - Email: {self.email}")
+
 
 class Bot(db.Model):
     bot_id = db.Column(db.Integer, primary_key=True)
@@ -31,9 +34,14 @@ class Bot(db.Model):
     bot_discord_email = db.Column(db.String(100), nullable=False)
     bot_discord_pass = db.Column(db.String(100), nullable=False)
     api_key = db.relationship('Apikey', backref="bot", uselist=False)
+    bot_cookie = db.Column(db.String(10000), nullable=True)
 
     def __repr__(self):
-        return(f"Name: {self.name} - ID: {self.bot_id} - {f'Rented! {self.api_key}' if self.api_key else 'Available'}")
+        return(f"Name: {self.name} - ID: {self.bot_id} ")
+
+    def availability(self):
+        return(f'Rented by {self.api_key.renter.username}' if self.api_key else 'Available')
+
 
 class Apikey(db.Model):
     key_id = db.Column(db.Integer, primary_key=True)
@@ -43,14 +51,3 @@ class Apikey(db.Model):
 
     def __repr__(self):
         return(f"ID: {self.key_id} - BotID: {self.bot_id} - User: {self.user_id}")
-    
-
-
-
-
-
-    
-
-
-
-

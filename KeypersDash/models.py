@@ -35,6 +35,7 @@ class Bot(db.Model):
     bot_discord_email = db.Column(db.String(100), nullable=False)
     bot_discord_pass = db.Column(db.String(100), nullable=False)
     api_key = db.relationship('Apikey', backref="bot", uselist=False)
+    bot_cookie = db.Column(db.String(10000), nullable=True)
 
     def __repr__(self):
         return(f"Name: {self.name} - ID: {self.bot_id} ")
