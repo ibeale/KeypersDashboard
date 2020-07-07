@@ -11,6 +11,7 @@ def makeDriver():
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
     options.add_argument('window-size=1920,1080')
+    options.add_argument("--enable-javascript")
     driver = webdriver.Chrome(options=options)
     return driver
 
@@ -70,32 +71,28 @@ def resetCyber(bot_cookie):
 
 
 def resetKodai(bot_cookie):
-    driver = makeDriver()
-    driver.get("https://hub.kodai.io/")
-    driver.add_cookie(bot_cookie)
-    driver.get("https://hub.kodai.io/management")
-    timeout = time.time() + 60
-    deactivate = []
-    while len(deactivate) == 0:
-        if time.time() > timeout:
-            return "Timeout Kodai Reset 1"
-        deactivate = driver.find_elements_by_xpath(
-            "//*[contains(text(), 'Deactivate')]")
-    deactivate[0].click()
-    confirm = []
-    while len(confirm) == 0:
-        if time.time() > timeout:
-            return "Timeout Kodai Reset 2"
-        confirm = driver.find_elements_by_xpath(
-            "//*[contains(text(), 'Reset')]")
-    confirm[0].click()
-    sleep(5)
-    failed = driver.find_elements_by_xpath(
-        "//*[contains(text(), 'Failed to Reset License Key')]")
-    if failed:
-        print("Failed")
-        return "There was an error resetting Kodai. [Rate Limit]"
-    return 0
+    headers = {
+    'authority': 'hub.kodai.io',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36',
+    'content-type': 'application/json',
+    'accept': '*/*',
+    'origin': 'https://hub.kodai.io',
+    'sec-fetch-site': 'same-origin',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-dest': 'empty',
+    'referer': 'https://hub.kodai.io/management',
+    'accept-language': 'en-US,en;q=0.9',
+    'cookie': f"kodai_dashboard={bot_cookie['value']}",
+    }
+
+    data = '{"unbind_type":"machine"}'
+
+    response = requests.post('https://hub.kodai.io/api/user/unbind', headers=headers, data=data)
+    print(response.json())
+    if not response.json()['success']:
+        return "Error Resetting. Rate Limit"
+    else:
+        return 0
 
 def getKodaiCookie(username, password):
     driver = makeDriver()
@@ -126,5 +123,7 @@ def getCyberCookie(username,password):
         if cookie['name'] == "dashboard_session":
             print(json.dumps(cookie))
 
+
 if __name__ == "__main__":
-    getCyberCookie("superchillin12@gmail.com", "J33pers!")
+    cookie = json.loads('{"domain": "hub.kodai.io", "expiry": 1625682210, "httpOnly": true, "name": "kodai_dashboard", "path": "/", "secure": false, "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJ1cm5zeSMzMzExIiwiZW1haWwiOiJzdXBlcmNoaWxsaW4xMkBnbWFpbC5jb20iLCJpZCI6IjU1NzI4NTMxMjU5NDk2ODU3NyIsImF2YXRhciI6ImFfY2Y4YjkwMjk1MmJhOTc1OWFkM2QyMzBmYjQyYWU5YzAiLCJkaXNjcmltaW5hdG9yIjoiMzMxMSIsInN0b3JhZ2UiOiI0NjY4MTI2OGJmYjgyNTcxMTdjNTJiZWE3NzkxOWU5MWI3YjRiMzMxYmZkMTI1ODZjOTBkMjdkZmE2N2NiZGExYWI4YzJiYjk5ODE0MGZhYjVkZGZjYTA0YzNjMTExNmQ2ZjZmYzZkMDMwYTAzZDZjYjE4MWFlYTMxYTM0NzJjOTkxNGI4OWEwMjQ3ZjI0ZThiMzgxZjJhMDI0MjM1Y2Q4NGZlZTRjNTRiYzJkMWYyOGFlOWUwN2JhMTE0ZmI1MTMxNGQxMzQzMjdkNjU1YzUwODFiNjQ1YTdmZTQ1YzNjNjY0MzdmN2ExMTY4MjNkZmM1ZjViM2FhOTcwNTc5NWY1MDczNGUyZmQxYzc1NGNmNWM5NjNmYTg3ODJiMzRiZDg1NmM3MmY2ZmM2MDAzZDA5NWU5ODlkZjg2MWY3YzlmMmE3MTZhNDc5NGViNzdiOWEyNmI3MjNhYmMwMGY2MzRhMGRhM2Y2OWJkMWU3YzQ0N2Q2Mjg1Y2JhNDgxNTRjNzgyZjcxMmFhMzY5ZjFjY2JhZDA5MDBmNWRlYzZmZGU1NSIsImlwIjoiMjYwMToxYzA6NWYwMDoxNTA6ZDlmZjpkNTlkOjE5Mjk6YTU1NyIsImlhdCI6MTU5NDE0NjIxMn0.RBngceNpiuTsA734Q3CaNiu3ZWA8_Bmr8p8LX0ZYdNo"}')
+    resetKodai(cookie)
