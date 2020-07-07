@@ -9,9 +9,10 @@ import json
 
 def makeDriver():
     options = webdriver.ChromeOptions()
+    # options.add_argument(f"--proxy-server=3.224.161.46:3128")
     options.add_argument('headless')
     options.add_argument('window-size=1920,1080')
-    options.add_argument("--enable-javascript")
+
     driver = webdriver.Chrome(options=options)
     return driver
 
@@ -95,6 +96,7 @@ def resetKodai(bot_cookie):
             return 0
     else:
         return f"Error resetting [{response.status_code}]"
+
 
 def getKodaiCookie(username, password):
     driver = makeDriver()

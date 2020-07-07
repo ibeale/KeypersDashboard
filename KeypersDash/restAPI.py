@@ -191,3 +191,24 @@ def remove_admin():
             return render_template('removeAdmin.html', admins=admins)
         else:
             return Response("You cant do that.", 401)
+
+@restAPI.route('/removeUser', methods=['GET', 'POST'])
+def remove_user():
+    if request.method == 'POST':
+        if checkAdmin(session):
+            user_id = request.form['user']
+            user = User.query.filter_by(user_id=user_id).first()
+            if user != None:
+                if user.api_keys:
+                    for key in user.api_keys:
+                        Apikey.query.filter_by(key=key.key).delete()
+                User.query.filter_by(user_id=user_id).delete()
+                db.session.commit()
+        return redirect(url_for("dashboard.dash"))
+    elif request.method == 'GET':
+        if checkAdmin(session):
+            users = User.query.all()
+            print(users)
+            return render_template('removeUser.html', users=users)
+        else:
+            return Response("You cant do that.", 401)
