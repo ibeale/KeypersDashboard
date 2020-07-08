@@ -16,5 +16,9 @@
 	function addSpin(elem) {
 		elem.classList.add("is-loading");
 	}
+	function delete_msg() {
+		message = document.getElementById("server-message")
+		message.parentElement.removeChild(message)
+	}
 </script>
 {% endblock %}

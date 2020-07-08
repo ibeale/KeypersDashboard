@@ -5,14 +5,20 @@
 </h1>
 <div class="table-container">
     {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <ul class=flashes>
+        {% if messages %}
         {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}
+        <article class="message" id="server-message">
+            <div class="message-header">
+              <p>Message from server: </p>
+              <button class="delete" aria-label="delete" onclick="delete_msg()"></button>
+            </div>
+            <div class="message-body">
+                {{ message }}
+            </div>
+          </article>
+          {% endfor %}
+          {% endif %}
+        {% endwith %}
     {% if notInDiscord %}
     {{ notInDiscord }}
     <br>
