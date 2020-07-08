@@ -9,7 +9,7 @@ dashboard = Blueprint('dashboard', __name__)
 API_BASE_URL = os.environ.get('API_BASE_URL', 'https://discordapp.com/api')
 OAUTH2_CLIENT_ID = "724104767223234631"
 OAUTH2_CLIENT_SECRET = "LKVD3qQf5ehpr3FPCB3bTqeZT79Fy3dn"
-OAUTH2_REDIRECT_URI = 'http://www.keypers.io/callback'
+OAUTH2_REDIRECT_URI = 'http://localhost:5000/callback'
 
 API_BASE_URL = os.environ.get('API_BASE_URL', 'https://discordapp.com/api')
 AUTHORIZATION_BASE_URL = API_BASE_URL + '/oauth2/authorize'
@@ -49,7 +49,7 @@ def home():
 def dash():
     role = "Member"
     notInDiscord = Markup(
-        'You are not a part of our discord. Click <a href="https://discord.gg/JC8nE3">here to join.</a>')
+        'You are not a part of our discord. <a class= "button is-success" href="https://discord.gg/RpqWAbH">Join Our Discord</a>')
     if 'oauth2_token' not in session.keys():
         scope = request.args.get(
             'scope', 'identify email connections guilds guilds.join')
@@ -76,7 +76,8 @@ def dash():
             if 'admin-key' in session.keys():
                 session.pop('admin-key')
             for i in guilds:
-                if i['id'] == "698641287229866125":
+                if i['id'] == "702704645931401266":
+                # if i['id'] == "382525659060240384": TEST
                     notInDiscord = None
             bots = []
             keys = userDB.api_keys
@@ -116,4 +117,4 @@ def dash():
                 error = "Error creating User!"
 
     # return jsonify(user=user,guilds=guilds,connections=connections, role=role)
-    return render_template("userDash.html", user=user, error=error, role=role, bots=bots)
+    return render_template("userDash.html", user=user, error=error, role=role, bots=bots, notInDiscord=notInDiscord)

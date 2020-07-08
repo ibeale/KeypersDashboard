@@ -3,23 +3,24 @@
 <h1 class="title">
     Administrator
 </h1>
+<div class="buttons has-addons is-centered">
+    <a href="/addAdmin" class="button is-warning">
+        Add an Administrator
+    </a>
+    <a href="/removeAdmin" class="button is-warning">
+        Remove an Administrator
+    </a>
+    <a href="/removeUser" class="button is-warning">
+        Remove an Customer
+    </a>
+    <a href="/addBot" class="button is-success">
+        Add a Bot
+    </a>
+    <a href="/removeBot" class="button is-danger">
+        Remove a Bot
+    </a>
+</div>
 
-<a href="/addAdmin" class="button is-warning">
-    Add an Administrator
-</a>
-<a href="/removeAdmin" class="button is-warning">
-    Remove an Administrator
-</a>
-<a href="/removeUser" class="button is-warning">
-    Remove an Customer
-</a>
-<a href="/addBot" class="button is-success">
-    Add a Bot
-</a>
-<a href="/removeBot" class="button is-danger">
-    Remove a Bot
-</a>
-<br /><br /><br />
 <h2>Bot Inventory</h2>
 <div class="table-container">
     {% with messages = get_flashed_messages() %}
@@ -31,7 +32,7 @@
     </ul>
     {% endif %}
     {% endwith %}
-    <table class="table is-fullwidth" align="left">
+    <table class="table is-fullwidth is-bordered is-hoverable" align="left">
         <tr>
             <th>Bot ID</th>
             <th>Bot Name</th>
@@ -76,7 +77,7 @@
 
 <br />
 <h2>Administrators</h2>
-<table class="table is-fullwidth" align="left">
+<table class="table is-fullwidth  is-bordered is-hoverable" align="left">
     <tr>
         <th>Admin ID</th>
         <th>Admin Username</th>
@@ -94,7 +95,7 @@
 </table>
 <h2>Customers</h2>
 <div class="table-container">
-    <table class="table is-fullwidth" align="left">
+    <table class="table is-fullwidth is-bordered is-hoverable" align="left">
         <tr>
             <th>User ID</th>
             <th>Username</th>
@@ -109,15 +110,14 @@
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.discordID }}</td>
-            <td>{{ user_dict[user.username] }}</td>
+            <td>{{', '.join(user_dict[user.username]) }}</td>
             <td>
                 <a href="/addRental?userID={{user.user_id}}" class="button is-success is-small">Add Rental</a>
                 {% if user.api_keys %}
                 <a href="/removeRental?userID={{user.user_id}}" class="button is-danger is-small">Remove Rental</button>
-                    {% else %}
-                    <button href="/removeRental?userID={{user.user_id}}" class="button is-danger is-small"
-                        disabled>Remove Rental</button>
-                    {% endif %}
+                {% else %}
+                <a href="/removeRental?userID={{user.user_id}}" class="button is-danger is-small" disabled>Remove Rental</button>
+                {% endif %}
             </td>
         </tr>
         {% endfor %}

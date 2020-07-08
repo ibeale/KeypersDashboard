@@ -13,16 +13,19 @@
     </ul>
     {% endif %}
     {% endwith %}
-    <table class="table is-fullwidth" align="left">
+    {% if notInDiscord %}
+    {{ notInDiscord }}
+    <br>
+    {% endif %}
+    {% if bots %}
+    <table class="table is-fullwidth is-bordered is-hoverable" align="left">
         <tr>
-            <th>Bot ID</th>
             <th>Bot Name</th>
             <th>Bot Key</th>
             <th>Reset Bot</th>
         </tr>
         {% for bot in bots %}
         <tr>
-            <td>{{ bot.bot_id }}</td>
             <td>{{ bot.name }}</td>
             <td>{{ bot.bot_key }}</td>
             {% if bot.bot_cookie %}
@@ -45,6 +48,10 @@
         </tr>
         {% endfor %}
     </table>
+    {% else %}
+    <h1>You haven't rented any bots. Open a ticket in our discord!</h1>
+    <a class= "button is-success" href="https://discord.gg/RpqWAbH">Discord</a>
+    {% endif %}
 </div>
 
 

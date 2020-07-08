@@ -1,0 +1,31 @@
+@charset "utf-8";
+
+
+// Set your brand colors
+$kp-cyan:	   #00e1ea;
+$kp-peach:	   #ffd2c5;
+$kp-pink:	   #ffc5d5;
+$kp-red:	   #ff2467;
+$kp-green:	   #c5ffd2;
+
+// Update Bulma's global variables
+$primary: #3f3f3f;
+$success: $kp-pink;
+$warning: $kp-cyan;
+$table-background-color: #dadada;
+// Use the existing orange as the danger color
+$danger: $kp-red;
+
+// Update some of Bulma's component variables
+
+// Import only what you need from Bulma
+@import "../node_modules/bulma/bulma.sass";
+// @import "../node_modules/bulma/sass/utilities/_all.sass";
+// @import "../node_modules/bulma/sass/base/_all.sass";
+// @import "../node_modules/bulma/sass/elements/button.sass";
+// @import "../node_modules/bulma/sass/elements/container.sass";
+// @import "../node_modules/bulma/sass/elements/title.sass";
+// @import "../node_modules/bulma/sass/form/_all.sass";
+// @import "../node_modules/bulma/sass/components/navbar.sass";
+// @import "../node_modules/bulma/sass/layout/hero.sass";
+// @import "../node_modules/bulma/sass/layout/section.sass";

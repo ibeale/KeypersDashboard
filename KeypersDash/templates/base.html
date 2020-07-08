@@ -6,21 +6,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Keypers Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+    <link rel="stylesheet" href="/static/mybulma/css/mystyles.css" />
 </head>
 
 <body>
     <section class="hero is-primary is-fullheight">
 
         <div class="hero-head">
-            <nav class="navbar">
+            <nav class="navbar is-transparent">
                 <div class="container">
-
-                    <div id="navbarMenuHeroA" class="navbar-menu">
+                    <div class="navbar-brand">
+                        <a href="{{ url_for('dashboard.home') }}" style="padding-top: 10px;">
+                            <img src="/static/images/keypers-2-button.png" style="  border: 2px solid #000; border-radius: 25px;width: 100px;height: 50px;">
+                        </a>
+                    </div>
+                    <div id="navbarMenuHeroA" class="navbar-menu is-active">
+                        <div class="navbar-start">
+                            
+                        </div>
                         <div class="navbar-end">
-                            <a href="{{ url_for('dashboard.home') }}" class="navbar-item">
-                                Home
-                            </a>
                             <a href="{{ url_for('dashboard.dash') }}" class="navbar-item">
                                 Dashboard
                             </a>
@@ -33,12 +37,13 @@
             </nav>
         </div>
 
-        <div class="hero-body">
+        <div class="hero-body is-bold is-fullheight-with-navbar">
             <div class="container has-text-centered">
                 {% block content %}
                 {% endblock %}
             </div>
         </div>
+        <div class="hero-foot">Made by ike_on#6572</div>
     </section>
 </body>
 
