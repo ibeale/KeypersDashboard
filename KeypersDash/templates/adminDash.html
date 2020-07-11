@@ -11,7 +11,7 @@
         Remove an Administrator
     </a>
     <a href="/removeUser" class="button is-warning">
-        Remove an Customer
+        Remove a Customer
     </a>
     <a href="/addBot" class="button is-success">
         Add a Bot
@@ -44,7 +44,6 @@
                 <th>Bot ID</th>
                 <th>Bot Name</th>
                 <th>Bot Discord Email</th>
-                <th>Bot Discord Pass</th>
                 <th>Bot Key</th>
                 <th>Cookie Status</th>
                 <th>Availability</th>
@@ -55,7 +54,6 @@
                 <td>{{ bot.bot_id }}</td>
                 <td>{{ bot.name }}</td>
                 <td>{{ bot.bot_discord_email }}</td>
-                <td>{{ bot.bot_discord_pass }}</td>
                 <td>{{ bot.bot_key }}</td>
                 <td>{{True if bot.bot_cookie else False}}</td>
                 <td>{{ bot.availability() }}</td>

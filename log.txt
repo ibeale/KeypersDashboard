@@ -1,13 +1,19 @@
-[2020-07-09 03:10:07 +0000] [3284] [INFO] Starting gunicorn 19.7.1
-[2020-07-09 03:10:07 +0000] [3284] [INFO] Listening at: http://127.0.0.1:8000 (3284)
-[2020-07-09 03:10:07 +0000] [3284] [INFO] Using worker: sync
-[2020-07-09 03:10:07 +0000] [3287] [INFO] Booting worker with pid: 3287
-[2020-07-09 03:10:07 +0000] [3289] [INFO] Booting worker with pid: 3289
-[2020-07-09 03:10:07 +0000] [3290] [INFO] Booting worker with pid: 3290
-[2020-07-09 03:10:52 +0000] [3284] [INFO] Handling signal: hup
-[2020-07-09 03:10:52 +0000] [3284] [INFO] Hang up: Master
-[2020-07-09 03:10:52 +0000] [3296] [INFO] Booting worker with pid: 3296
-[2020-07-09 03:10:52 +0000] [3298] [INFO] Booting worker with pid: 3298
-[2020-07-09 03:10:52 +0000] [3299] [INFO] Booting worker with pid: 3299
-[2020-07-09 03:10:52 +0000] [3297] [INFO] Booting worker with pid: 3297
-[2020-07-09 03:10:53 +0000] [3296] [INFO] Worker exiting (pid: 3296)
+[2020-07-10 00:23:24 +0000] [8090] [INFO] Starting gunicorn 19.7.1
+[2020-07-10 00:23:24 +0000] [8090] [INFO] Listening at: http://127.0.0.1:8000 (8090)
+[2020-07-10 00:23:24 +0000] [8090] [INFO] Using worker: sync
+[2020-07-10 00:23:24 +0000] [8093] [INFO] Booting worker with pid: 8093
+[2020-07-10 00:23:24 +0000] [8094] [INFO] Booting worker with pid: 8094
+[2020-07-10 00:23:24 +0000] [8096] [INFO] Booting worker with pid: 8096
+[2020-07-10 00:23:39 +0000] [8111] [INFO] Booting worker with pid: 8111
+[2020-07-10 00:23:39 +0000] [8090] [INFO] Handling signal: hup
+[2020-07-10 00:23:39 +0000] [8090] [INFO] Hang up: Master
+[2020-07-10 00:23:39 +0000] [8112] [INFO] Booting worker with pid: 8112
+[2020-07-10 00:23:39 +0000] [8113] [INFO] Booting worker with pid: 8113
+[2020-07-10 00:23:39 +0000] [8114] [INFO] Booting worker with pid: 8114
+[2020-07-10 00:23:41 +0000] [8111] [INFO] Worker exiting (pid: 8111)
+[2020-07-10 00:27:02 +0000] [8090] [INFO] Handling signal: int
+[2020-07-10 00:27:02 +0000] [8112] [INFO] Worker exiting (pid: 8112)
+[2020-07-10 00:27:02 +0000] [8113] [INFO] Worker exiting (pid: 8113)
+tZABHwrEIUWxUenybhhR
+[2020-07-10 00:27:02 +0000] [8114] [INFO] Worker exiting (pid: 8114)
+[2020-07-10 00:27:03 +0000] [8090] [INFO] Shutting down: Master

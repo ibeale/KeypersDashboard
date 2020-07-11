@@ -24,13 +24,18 @@ def reset():
     if checkAdmin(session):
         if 'bid' in request.args.keys():
             bot = Bot.query.filter_by(bot_id=request.args['bid']).first()
-            print(bot.bot_cookie)
-            bot_cookie = loads(bot.bot_cookie)
+            try:
+                bot_cookie = loads(bot.bot_cookie)
+            except Exception as e:
+                print(e)
+                failed = "Error resetting - Invalid Cookie."
             if "cyber" in bot.name.lower():
                 failed = resetCyber(bot_cookie)
 
             elif "kodai" in bot.name.lower():
                 failed = resetKodai(bot_cookie)
+            else:
+                failed = "Reset for this bot is not currently supported"
 
             if failed:
                 flash(failed)
@@ -42,7 +47,11 @@ def reset():
         api_key = Apikey.query.filter_by(key=request.args['key']).first()
         if api_key:
             bot = Bot.query.filter_by(api_key=api_key).first()
-            bot_cookie = loads(bot.bot_cookie)
+            try:
+                bot_cookie = loads(bot.bot_cookie)
+            except Exception as e:
+                print(e)
+                failed = "Error resetting - Invalid Cookie. Contact an administrator about this bot."
             if "cyber" in bot.name.lower():
                 failed = resetCyber(bot_cookie)
 
@@ -84,7 +93,7 @@ def add_bot():
             name = request.form['name']
             bot_key = request.form['bot_key']
             bot_discord_email = request.form['bot_discord_email']
-            bot_discord_pass = request.form['bot_discord_pass']
+            bot_discord_pass = " "
             bot_cookie = request.form['bot_cookie']
             if not bot_cookie:
                 bot_cookie = None

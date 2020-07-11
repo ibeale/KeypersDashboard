@@ -54,48 +54,56 @@ def discordLogin(driver, em, pw):
 
 
 def resetCyber(bot_cookie):
-    driver = makeDriver()
-    driver.get("https://cybersole.io")
-    driver.add_cookie(bot_cookie)
-    driver.get("https://cybersole.io/dashboard")
-    # error = discordLogin(driver, em, pw)
-    reset = []
-    timeout = time.time() + 60
-    while len(reset) == 0:
-        if time.time() > timeout:
-            return "Timeout Cyber"
-        reset = driver.find_elements_by_xpath(
-            "/html/body/div[1]/div/div[4]/div/div/div/div[5]/div[1]/div")
-    reset = reset[0]
-    reset.click()
+    try:
+        driver = makeDriver()
+        driver.get("https://cybersole.io")
+        driver.add_cookie(bot_cookie)
+        driver.get("https://cybersole.io/dashboard")
+        # error = discordLogin(driver, em, pw)
+        reset = []
+        timeout = time.time() + 60
+        while len(reset) == 0:
+            if time.time() > timeout:
+                return "Timeout Cyber"
+            reset = driver.find_elements_by_xpath(
+                "/html/body/div[1]/div/div[4]/div/div/div/div[5]/div[1]/div")
+        reset = reset[0]
+        reset.click()
+    except Exception as e:
+        print(e)
+        return "Unknown error occurred"
 
 
 def resetKodai(bot_cookie):
-    headers = {
-    'authority': 'hub.kodai.io',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36',
-    'content-type': 'application/json',
-    'accept': '*/*',
-    'origin': 'https://hub.kodai.io',
-    'sec-fetch-site': 'same-origin',
-    'sec-fetch-mode': 'cors',
-    'sec-fetch-dest': 'empty',
-    'referer': 'https://hub.kodai.io/management',
-    'accept-language': 'en-US,en;q=0.9'
-    }
+    try:
+        headers = {
+        'authority': 'hub.kodai.io',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36',
+        'content-type': 'application/json',
+        'accept': '*/*',
+        'origin': 'https://hub.kodai.io',
+        'sec-fetch-site': 'same-origin',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-dest': 'empty',
+        'referer': 'https://hub.kodai.io/management',
+        'accept-language': 'en-US,en;q=0.9'
+        }
 
-    cookie = {"kodai_dashboard":bot_cookie['value']}
+        cookie = {"kodai_dashboard":bot_cookie['value']}
 
-    data = '{"unbind_type":"machine"}'
+        data = '{"unbind_type":"machine"}'
 
-    response = requests.post('https://hub.kodai.io/api/user/unbind', headers=headers,cookies=cookie,data=data)
-    if response.status_code == 200:
-        if not response.json()['success']:
-            return "Error Resetting. Rate Limit"
+        response = requests.post('https://hub.kodai.io/api/user/unbind', headers=headers,cookies=cookie,data=data)
+        if response.status_code == 200:
+            if not response.json()['success']:
+                return "Error Resetting. Rate Limit"
+            else:
+                return 0
         else:
-            return 0
-    else:
-        return f"Error resetting [{response.status_code}]"
+            return f"Error resetting [{response.status_code}]"
+    except Exception as e:
+        print(e)
+        return "Unknown error occurred"
 
 
 def getKodaiCookie(username, password):

@@ -51,3 +51,4 @@ class Apikey(db.Model):
 
     def __repr__(self):
         return(f"ID: {self.key_id} - BotID: {self.bot_id} - User: {self.user_id}")
+

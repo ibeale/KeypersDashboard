@@ -1,0 +1,24 @@
+[2020-07-09 20:48:26 +0000] [7411] [INFO] Starting gunicorn 19.7.1
+[2020-07-09 20:48:26 +0000] [7411] [INFO] Listening at: http://127.0.0.1:8000 (7411)
+[2020-07-09 20:48:26 +0000] [7411] [INFO] Using worker: sync
+[2020-07-09 20:48:26 +0000] [7414] [INFO] Booting worker with pid: 7414
+[2020-07-09 20:48:26 +0000] [7414] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/gunicorn/arbiter.py", line 578, in spawn_worker
+    worker.init_process()
+  File "/usr/lib/python3/dist-packages/gunicorn/workers/base.py", line 126, in init_process
+    self.load_wsgi()
+  File "/usr/lib/python3/dist-packages/gunicorn/workers/base.py", line 135, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/usr/lib/python3/dist-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/usr/lib/python3/dist-packages/gunicorn/app/wsgiapp.py", line 65, in load
+    return self.load_wsgiapp()
+  File "/usr/lib/python3/dist-packages/gunicorn/app/wsgiapp.py", line 52, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/usr/lib/python3/dist-packages/gunicorn/util.py", line 377, in import_app
+    __import__(module)
+ModuleNotFoundError: No module named 'KeypersDash'
+[2020-07-09 20:48:26 +0000] [7414] [INFO] Worker exiting (pid: 7414)
+[2020-07-09 20:48:26 +0000] [7411] [INFO] Shutting down: Master
+[2020-07-09 20:48:26 +0000] [7411] [INFO] Reason: Worker failed to boot.
