@@ -1,15 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
 <form action="/addRental?userID={{ user_id }}" method="post">
-    <div class="select">
-        <select id="bot" name="bot">
-            {% for bot in bots %}
-            {% if not bot.api_key %}
-            <option value="{{ bot.bot_id }}">{{ bot.name }} {{ bot.bot_id }}</option>
-            {% endif %}
-            {% endfor %}
-        </select>
+    <div class="section">
+        <div class="select">
+            <label class="label">Bot</label>
+            <select id="bot" name="bot">
+                {% for bot in bots %}
+                {% if not bot.api_key %}
+                <option value="{{ bot.bot_id }}">{{ bot.name }} {{ bot.bot_id }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </div>
     </div>
+    <div class="field">
+        <label class="label">Days</label>
+        <div class="control">
+            <input class="input" type="number" name="days" value=0 />
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Hours</label>
+        <div class="control">
+            <input class="input" type="number" name="hours" value=0 />
+        </div>
+    </div>
+    
 
     <button class="button is-danger" type="submit">Add</button>
 </form>

@@ -45,6 +45,7 @@
                 <th>Bot Key</th>
                 <th>Cookie Status</th>
                 <th>Availability</th>
+                <th>Rental End</th>
                 <th>Reset Bot</th>
             </tr>
             {% for bot in bots %}
@@ -55,6 +56,15 @@
                 <td>{{ bot.bot_key }}</td>
                 <td>{{True if bot.bot_cookie else False}}</td>
                 <td>{{ bot.availability() }}</td>
+                {% if bot.api_key %}
+                    {% if bot.api_key.rental_end %}
+                        <td>{{ bot.api_key.rental_end.strftime("%b %d %Y at %I:%M %p EST") if bot.api_key else "N/A"}}</td>
+                    {% else %}
+                        <td>Never</td>
+                    {% endif %}
+                {% else %}
+                    <td>N/A</td>
+                {% endif %}
                 {% if bot.bot_cookie %}
                 <td>
                     <form action="/reset?bid={{ bot.bot_id }}" method="post">

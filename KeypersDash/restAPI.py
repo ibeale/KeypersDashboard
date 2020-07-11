@@ -9,6 +9,7 @@ import random
 from .resetBots import *
 from json import loads
 from .appconfig import config_values
+from datetime import datetime, timedelta
 restAPI = Blueprint('restAPI', __name__)
 
 
@@ -93,14 +94,13 @@ def add_bot():
             name = request.form['name']
             bot_key = request.form['bot_key']
             bot_discord_email = request.form['bot_discord_email']
-            bot_discord_pass = " "
             bot_cookie = request.form['bot_cookie']
             if not bot_cookie:
                 bot_cookie = None
             exists = Bot.query.filter_by(bot_key=bot_key).first()
             if exists == None:
                 new_bot = Bot(name=name, bot_key=bot_key,
-                              bot_discord_email=bot_discord_email, bot_discord_pass=bot_discord_pass, bot_cookie=bot_cookie)
+                              bot_discord_email=bot_discord_email, bot_cookie=bot_cookie)
                 db.session.add(new_bot)
                 db.session.commit()
         return redirect(url_for("dashboard.dash"))
@@ -120,18 +120,24 @@ def randomString(stringLength=20):
 def add_rental():
     if request.method == 'POST':
         if checkAdmin(session):
+            days = int(request.form['days'])
+            hours = int(request.form['hours'])
+            if days <= 0 and hours <= 0:
+                rental_end = None
+            else:
+                timezone = config_values['timezone']
+                rental_end = datetime.now(tz=config_values['timezone']) + timedelta(days=days, hours=hours)
             user_id = request.args['userID']
-            if 'bot' in request.form.keys():
-                bot_id = request.form['bot']
-                while True:
-                    api_key = randomString()
-                    checkKey = Apikey.query.filter_by(key=api_key).first()
-                    if checkKey == None:
-                        break
-                new_rental = Apikey(
-                    key=api_key, bot_id=bot_id, user_id=user_id)
-                db.session.add(new_rental)
-                db.session.commit()
+            bot_id = request.form['bot']
+            while True:
+                api_key = randomString()
+                checkKey = Apikey.query.filter_by(key=api_key).first()
+                if checkKey == None:
+                    break
+            new_rental = Apikey(
+                key=api_key, bot_id=bot_id, user_id=user_id, rental_end=rental_end)
+            db.session.add(new_rental)
+            db.session.commit()
         return redirect(url_for("dashboard.dash"))
     elif request.method == 'GET':
         if checkAdmin(session):
