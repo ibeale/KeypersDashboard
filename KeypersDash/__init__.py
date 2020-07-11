@@ -1,9 +1,11 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from .appconfig import config_values
+
 
 
 db = SQLAlchemy()
-OAUTH2_CLIENT_SECRET = "LKVD3qQf5ehpr3FPCB3bTqeZT79Fy3dn"
+OAUTH2_CLIENT_SECRET = config_values['oauth2_client_secret']
 
 def create_app():
 	app = Flask(__name__)

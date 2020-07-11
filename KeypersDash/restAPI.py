@@ -8,13 +8,13 @@ import string
 import random
 from .resetBots import *
 from json import loads
-
+from .appconfig import config_values
 restAPI = Blueprint('restAPI', __name__)
 
 
 def checkAdmin(session):
     if 'admin-key' in session.keys():
-        if session['admin-key'] == "QkkqN7VRtDGHgtQXgG6a":
+        if session['admin-key'] == config_values['admin_key']:
             return 1
     return 0
 

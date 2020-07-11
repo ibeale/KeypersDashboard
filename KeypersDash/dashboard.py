@@ -4,12 +4,12 @@ from .auth import make_session
 import os
 from requests_oauthlib import OAuth2Session
 from .models import *
+from .appconfig import config_values
 
 dashboard = Blueprint('dashboard', __name__)
-API_BASE_URL = os.environ.get('API_BASE_URL', 'https://discordapp.com/api')
-OAUTH2_CLIENT_ID = "724104767223234631"
-OAUTH2_CLIENT_SECRET = "LKVD3qQf5ehpr3FPCB3bTqeZT79Fy3dn"
-OAUTH2_REDIRECT_URI = 'http://localhost:5000/callback'
+OAUTH2_CLIENT_ID = config_values['oauth2_client_id']
+OAUTH2_CLIENT_SECRET = config_values['oauth2_client_secret']
+OAUTH2_REDIRECT_URI = config_values['oauth2_redirect_uri']
 
 API_BASE_URL = os.environ.get('API_BASE_URL', 'https://discordapp.com/api')
 AUTHORIZATION_BASE_URL = API_BASE_URL + '/oauth2/authorize'
@@ -87,7 +87,7 @@ def dash():
             notInDiscord = None
             bots = Bot.query.all()
             role = "Administrator"
-            session['admin-key'] = "QkkqN7VRtDGHgtQXgG6a"
+            session['admin-key'] = config_values['admin_key']
             admins = Admin.query.all()
             users = User.query.all()
 

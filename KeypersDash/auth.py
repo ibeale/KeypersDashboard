@@ -2,12 +2,13 @@ from flask import Blueprint, request, redirect, render_template, url_for, sessio
 from . import db
 import os
 from requests_oauthlib import OAuth2Session
+from .appconfig import config_values
 
 auth = Blueprint('auth', __name__)
 
-OAUTH2_CLIENT_ID = "724104767223234631"
-OAUTH2_CLIENT_SECRET = "LKVD3qQf5ehpr3FPCB3bTqeZT79Fy3dn"
-OAUTH2_REDIRECT_URI = 'http://localhost:5000/callback'
+OAUTH2_CLIENT_ID = config_values['oauth2_client_id']
+OAUTH2_CLIENT_SECRET = config_values['oauth2_client_secret']
+OAUTH2_REDIRECT_URI = config_values['oauth2_redirect_uri']
 
 API_BASE_URL = os.environ.get('API_BASE_URL', 'https://discordapp.com/api')
 AUTHORIZATION_BASE_URL = API_BASE_URL + '/oauth2/authorize'
