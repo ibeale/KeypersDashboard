@@ -1,8 +1,6 @@
 {% extends "dashboard.html" %}
 {% block dashboard %}
-<h1 class="title">
-    Administrator
-</h1>
+<img src="/static/images/administrator.png" alt="" style="height: 200px;">
 <div class="buttons has-addons is-centered">
     <a href="/addAdmin" class="button is-warning">
         Add an Administrator
@@ -22,7 +20,7 @@
 </div>
 
 <section class="section">
-    <h2>Bot Inventory</h2>
+    <img src="/static/images/bots.png" alt="" style="height: 100px;">
     <div class="table-container">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -83,7 +81,7 @@
 
 
 <section class="section">
-    <h2>Administrators</h2>
+    <img src="/static/images/administrators.png" alt="" style="height: 100px;">
     <div class="table-container">
         <table class=" table is-fullwidth is-responsive is-bordered is-hoverable" align="left">
             <tr>
@@ -105,7 +103,7 @@
 </section>
 
 <section class="section">
-    <h2>Customers</h2>
+    <img src="/static/images/customers.png" alt="" style="height: 100px;">
     <div class="table-container">
         <table class="table is-fullwidth is-bordered is-hoverable" align="left">
             <tr>

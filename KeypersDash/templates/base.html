@@ -16,8 +16,7 @@
             <nav class="navbar is-black">
                 <div class="container">
                     <div class="navbar-brand">
-                        <a href="{{ url_for('dashboard.home') }}" style="padding-top: 10px;">
-                            <img src="/static/images/keypers-2-button.png" style="  border: 2px solid #000; border-radius: 25px;width: 100px;height: 50px;">
+                        <a href="{{ url_for('dashboard.home') }}" style="padding-top: 10px; background: url(/static/images/Keypers.png) no-repeat center center; background-size: cover; width: 125px">
                         </a>
                     </div>
                     <div id="navbarMenuHeroA" class="navbar-menu is-active">
@@ -25,11 +24,10 @@
                             
                         </div>
                         <div class="navbar-end">
-                            <a href="{{ url_for('dashboard.dash') }}" class="navbar-item">
-                                Dashboard
+                            <a href="{{ url_for('dashboard.dash') }}" class="navbar-item" style="background: url(/static/images/Dashboard.png) no-repeat center center; background-size: cover; width: 152px">
+                                
                             </a>
-                            <a href="{{ url_for('auth.logout') }}" class="navbar-item">
-                                Logout
+                            <a href="{{ url_for('auth.logout') }}" class="navbar-item" style="background: url(/static/images/Logout.png) no-repeat center center; background-size: cover; width: 152px">
                             </a>
                         </div>
                     </div>
