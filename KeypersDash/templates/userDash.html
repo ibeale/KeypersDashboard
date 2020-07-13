@@ -30,6 +30,8 @@
             <th>Bot Key</th>
             <th>Rental End</th>
             <th>Reset Bot</th>
+            <th>Download</th>
+            <th>Guide</th>
         </tr>
         {% for bot in bots %}
         <tr>
@@ -57,6 +59,36 @@
                 </form>
             </td>
             {% endif %}
+            <td>
+                {% if 'cyber' in bot.name.lower() %}
+                    <a href="https://cybersole.io/download" target="_blank" class="button is-small is-success">
+                        <span class="icon is-small">
+                            <i class="fas fa-download"></i>
+                        </span>
+                    </a>
+                {% elif 'kodai' in bot.name.lower() %}
+                    <a href="https://click.pstmrk.it/2sm/kodai.io%2Fdownload/sVeR6AY/bC0/XMRpImwO_c/TWFudWFsIE9yZGVy" target="_blank" class="button is-small is-success">
+                        <span class="icon is-small">
+                            <i class="fas fa-download"></i>
+                        </span>
+                    </a>
+                {% endif %}
+            </td>
+            <td>
+                {% if 'cyber' in bot.name.lower() %}
+                    <a href="https://cybersole.io/manual.pdf" target="_blank" class="button is-small is-warning">
+                        <span class="icon is-small">
+                            <i class="fas fa-info-circle"></i>
+                        </span>
+                    </a>
+                {% elif 'kodai' in bot.name.lower() %}
+                    <a href="https://help.kodai.io/hc/en-us" target="_blank" class="button is-small is-warning">
+                        <span class="icon is-small">
+                            <i class="fas fa-info-circle"></i>
+                        </span>
+                    </a>
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </table>
