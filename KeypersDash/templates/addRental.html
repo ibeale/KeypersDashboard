@@ -1,32 +1,60 @@
 {% extends "base.html" %}
 {% block content %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <article class="message" id="server-message">
+                <div class="message-header">
+                    <p>Message from server: </p>
+                    <button class="delete" aria-label="delete" onclick="delete_msg()"></button>
+                </div>
+                <div class="message-body">
+                    {{ message }}
+                </div>
+            </article>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
 <form action="/addRental?userID={{ user_id }}" method="post">
     <div class="section">
-        <div class="select">
-            <label class="label">Bot</label>
-            <select id="bot" name="bot">
-                {% for bot in bots %}
-                {% if not bot.api_key %}
-                <option value="{{ bot.bot_id }}">{{ bot.name }} {{ bot.bot_id }}</option>
-                {% endif %}
-                {% endfor %}
-            </select>
-        </div>
-    </div>
-    <div class="field">
-        <label class="label">Days</label>
-        <div class="control">
-            <input class="input" type="number" name="days" value=0 />
-        </div>
-    </div>
-    <div class="field">
-        <label class="label">Hours</label>
-        <div class="control">
-            <input class="input" type="number" name="hours" value=0 />
-        </div>
-    </div>
+        <div class="field is-horizontal">
+            <div class="field column is-centered">
+                <label class="label">Bot</label>
+                <div class="control is-expanded">
+                    <div class="select is-fullwidth">
+                        <select id="bot" name="bot">
+                            {% for bot in bots %}
+                            {% if not bot.api_key %}
+                            <option value="{{ bot.bot_id }}">{{ bot.name }} {{ bot.bot_id }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
     
+            <div class="field column is-centered">
+                <div class="control">
+                    <label class="label">End Date</label>
+                    <input class="input" type="datetime-local" name="date" value=0 />
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+
+
 
     <button class="button is-danger" type="submit">Add</button>
 </form>
+<script>
+	function addSpin(elem) {
+		elem.classList.add("is-loading");
+	}
+	function delete_msg() {
+		message = document.getElementById("server-message")
+		message.parentElement.removeChild(message)
+	}
+</script>
 {% endblock %}

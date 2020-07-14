@@ -120,24 +120,27 @@ def randomString(stringLength=20):
 def add_rental():
     if request.method == 'POST':
         if checkAdmin(session):
-            days = int(request.form['days'])
-            hours = int(request.form['hours'])
-            if days <= 0 and hours <= 0:
-                rental_end = None
-            else:
-                timezone = config_values['timezone']
-                rental_end = datetime.now(tz=config_values['timezone']) + timedelta(days=days, hours=hours)
             user_id = request.args['userID']
             bot_id = request.form['bot']
-            while True:
-                api_key = randomString()
-                checkKey = Apikey.query.filter_by(key=api_key).first()
-                if checkKey == None:
-                    break
-            new_rental = Apikey(
-                key=api_key, bot_id=bot_id, user_id=user_id, rental_end=rental_end)
-            db.session.add(new_rental)
-            db.session.commit()
+            end_date = request.form['date']
+            if end_date:
+                rental_end = config_values['timezone'].localize(datetime.strptime(end_date, "%Y-%m-%dT%H:%M"))
+            else:
+                flash("No end date specified. Please try again.")
+                return redirect(url_for("restAPI.add_rental",userID=user_id))
+            if rental_end <= datetime.now(tz=config_values['timezone']):
+                flash("End date is too early. Please try again.")
+                return redirect(url_for("restAPI.add_rental",userID=user_id))
+            else:
+                while True:
+                    api_key = randomString()
+                    checkKey = Apikey.query.filter_by(key=api_key).first()
+                    if checkKey == None:
+                        break
+                new_rental = Apikey(
+                    key=api_key, bot_id=bot_id, user_id=user_id, rental_end=rental_end)
+                db.session.add(new_rental)
+                db.session.commit()
         return redirect(url_for("dashboard.dash"))
     elif request.method == 'GET':
         if checkAdmin(session):
