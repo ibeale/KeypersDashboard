@@ -110,6 +110,32 @@ def add_bot():
         else:
             return Response("You cant do that.", 401)
 
+@restAPI.route('/editBot', methods=['GET', 'POST'])
+def edit_bot():
+    if request.method == 'POST':
+        if checkAdmin(session):
+            botID = request.args['bid']
+            bot = Bot.query.filter_by(bot_id=botID).first()
+            name = request.form['name']
+            bot_key = request.form['bot_key']
+            bot_discord_email = request.form['bot_discord_email']
+            bot_cookie = request.form['bot_cookie']
+            if not bot_cookie:
+                bot_cookie = None
+            bot.name = name
+            bot.bot_key = bot_key
+            bot.bot_discord_email = bot_discord_email
+            bot.bot_cookie = bot_cookie
+            db.session.commit()
+        return redirect(url_for("dashboard.dash"))
+    elif request.method == 'GET':
+        if checkAdmin(session):
+            botID = request.args['bid']
+            bot = Bot.query.filter_by(bot_id=botID).first()
+            return render_template('editBot.html', bot=bot)
+        else:
+            return Response("You cant do that.", 401)
+
 
 def randomString(stringLength=20):
     letters = string.ascii_letters
@@ -144,10 +170,12 @@ def add_rental():
         return redirect(url_for("dashboard.dash"))
     elif request.method == 'GET':
         if checkAdmin(session):
+            now = datetime.now()
+            now_str = now.strftime("%Y-%m-%dT%H:%M")
             user_id = request.args['userID']
             bots = Bot.query.all()
             user = User.query.filter_by(user_id=user_id).first()
-            return render_template('addRental.html', bots=bots, user_id=user_id)
+            return render_template('addRental.html', bots=bots, user_id=user_id, now_str=now_str)
         return Response("You cant do that.", 401)
 
 

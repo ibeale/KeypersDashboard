@@ -1,33 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
-<form action="/addBot" method="post" id="add_bot_form">
+<form action="/editBot?bid={{ bot.bot_id }}" method="post" id="edit_bot_form">
 	<div class="field">
 		<label class="label">Bot Name</label>
 		<div class="control">
-			<input class="input" type="text" name="name" placeholder="Bot Name" />
+			<input class="input" type="text" name="name" value="{{bot.name}}" />
 		</div>
 	</div>
 	<div class="field">
 		<label class="label">Bot Key</label>
 		<div class="control">
-			<input class="input" type="text" name="bot_key" placeholder="Bot Key" />
+			<input class="input" type="text" name="bot_key" value="{{bot.bot_key}}" />
 		</div>
 	</div>
 	<div class="field">
 		<label class="label">Bot Discord Email</label>
 		<div class="control">
-			<input class="input" type="email" name="bot_discord_email" placeholder="Email" />
+			<input class="input" type="email" name="bot_discord_email" value="{{bot.bot_discord_email}}" />
 		</div>
 	</div>
 	<div class="field">
 		<label class="label">Bot Cookie</label>
 		<div class="control">
-			<textarea class="textarea" name="bot_cookie" form="add_bot_form"></textarea>
+			<textarea class="textarea" name="bot_cookie" form="edit_bot_form" >{{bot.bot_cookie}}</textarea>
 		</div>
 	</div>
 	<div class="field is-grouped">
 		<div class="control">
-			<button class="button is-danger" type="submit">Add Bot</button>
+			<button class="button is-danger" type="submit">Edit Bot</button>
 		</div>
 	</div>
 </form>

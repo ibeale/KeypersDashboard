@@ -47,6 +47,7 @@
                 <th>Availability</th>
                 <th>Rental End</th>
                 <th>Reset Bot</th>
+                <th>Edit</th>
             </tr>
             {% for bot in bots %}
             <tr>
@@ -82,6 +83,9 @@
                     </form>
                 </td>
                 {% endif %}
+                <td>
+                    <a href="/editBot?bid={{ bot.bot_id }}" class="button is-danger is-small">Edit</a>
+                </td>
             </tr>
             {% endfor %}
         </table>
