@@ -56,6 +56,7 @@ def discordLogin(driver, em, pw):
 def resetCyber(bot_cookie):
     try:
         driver = makeDriver()
+        
         driver.get("https://cybersole.io")
         driver.add_cookie(bot_cookie)
         driver.get("https://cybersole.io/dashboard")
@@ -69,9 +70,10 @@ def resetCyber(bot_cookie):
                 "/html/body/div[1]/div/div[4]/div/div/div/div[5]/div[1]/div")
         reset = reset[0]
         reset.click()
+        return 0
     except Exception as e:
         print(e)
-        return "Unknown error occurred"
+        return("Unknown error occured.")
 
 
 def resetKodai(bot_cookie):
