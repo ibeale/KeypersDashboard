@@ -4278,13 +4278,13 @@ a.navbar-item,
 .pagination-next,
 .pagination-link {
   border-color: #dbdbdb;
-  color: #363636;
+  color: #00e1ea;
   min-width: 2.5em; }
   .pagination-previous:hover,
   .pagination-next:hover,
   .pagination-link:hover {
     border-color: #b5b5b5;
-    color: #363636; }
+    color: #00e1ea; }
   .pagination-previous:focus,
   .pagination-next:focus,
   .pagination-link:focus {
@@ -4309,9 +4309,9 @@ a.navbar-item,
   white-space: nowrap; }
 
 .pagination-link.is-current {
-  background-color: #3273dc;
-  border-color: #3273dc;
-  color: #fff; }
+  background-color: #00e1ea;
+  border-color: #00e1ea;
+  color: #000000; }
 
 .pagination-ellipsis {
   color: #b5b5b5;

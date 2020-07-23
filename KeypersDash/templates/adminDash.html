@@ -1,5 +1,13 @@
 {% extends "dashboard.html" %}
 {% block dashboard %}
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="/static/mybulma/js/jquery.dataTables.min.js"></script>
+<script src="/static/mybulma/js/dataTables.bulma.js"></script>
+
+
+
+<!-- <link rel="stylesheet" href="/static/mybulma/css/datatable.css" />
+<link rel="stylesheet" href="/static/mybulma/css/dataTables.bulma.min.css" /> -->
 <img src="/static/images/administrator.png" alt="" style="height: 200px;">
 <div class="buttons has-addons is-centered">
     <a href="/addAdmin" class="button is-warning">
@@ -20,84 +28,9 @@
 </div>
 
 <section class="section">
-    <img src="/static/images/bots.png" alt="" style="height: 100px;">
-    <div class="table-container">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        {% for message in messages %}
-        <article class="message" id="server-message">
-            <div class="message-header">
-              <p>Message from server: </p>
-              <button class="delete" aria-label="delete" onclick="delete_msg()"></button>
-            </div>
-            <div class="message-body">
-                {{ message }}
-            </div>
-          </article>
-          {% endfor %}
-          {% endif %}
-        {% endwith %}
-        <table class="table is-fullwidth is-responsive is-bordered is-hoverable" align="left">
-            <tr>
-                <th>Bot ID</th>
-                <th>Bot Name</th>
-                <th>Bot Discord Email</th>
-                <th>Bot Key</th>
-                <th>Cookie Status</th>
-                <th>Availability</th>
-                <th>Rental End</th>
-                <th>Reset Bot</th>
-                <th>Edit</th>
-            </tr>
-            {% for bot in bots %}
-            <tr>
-                <td>{{ bot.bot_id }}</td>
-                <td>{{ bot.name }}</td>
-                <td>{{ bot.bot_discord_email }}</td>
-                <td>{{ bot.bot_key }}</td>
-                <td>{{True if bot.bot_cookie else False}}</td>
-                <td>{{ bot.availability() }}</td>
-                {% if bot.api_key %}
-                    {% if bot.api_key.rental_end %}
-                        <td>{{ bot.api_key.rental_end.strftime("%b %d %Y at %I:%M %p EST") if bot.api_key else "N/A"}}</td>
-                    {% else %}
-                        <td>Never</td>
-                    {% endif %}
-                {% else %}
-                    <td>N/A</td>
-                {% endif %}
-                {% if bot.bot_cookie %}
-                <td>
-                    <form action="/reset?bid={{ bot.bot_id }}" method="post">
-                        <button type="submit " class="button is-danger is-small" onclick="addSpin(this)">
-                            Reset {{ bot.name }}
-                        </button>
-                    </form>
-                </td>
-                {% else %}
-                <td>
-                    <form action="/reset?bid={{ bot.bot_id }}" method="post">
-                        <button disabled type="submit " class="button is-danger is-small" onclick="addSpin(this)">
-                            Reset {{ bot.name }} 
-                        </button>
-                    </form>
-                </td>
-                {% endif %}
-                <td>
-                    <a href="/editBot?bid={{ bot.bot_id }}" class="button is-danger is-small">Edit</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-</section>
-
-
-
-<section class="section">
     <img src="/static/images/administrators.png" alt="" style="height: 100px;">
     <div class="table-container">
-        <table class=" table is-fullwidth is-responsive is-bordered is-hoverable" align="left">
+        <table class=" table is-fullwidth is-bordered is-hoverable" align="left">
             <tr>
                 <th>Admin ID</th>
                 <th>Admin Username</th>
@@ -117,38 +50,128 @@
 </section>
 
 <section class="section">
-    <img src="/static/images/customers.png" alt="" style="height: 100px;">
-    <div class="table-container">
-        <table class="table is-fullwidth is-bordered is-hoverable" align="left">
-            <tr>
-                <th>User ID</th>
-                <th>Username</th>
-                <th>User Email</th>
-                <th>User DiscordID</th>
-                <th>Bots Rented</th>
-                <th>Manage</th>
-            </tr>
-            {% for user in users %}
-            <tr>
-                <td>{{ user.user_id }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.discordID }}</td>
-                <td>{{', '.join(user_dict[user.username]) }}</td>
-                <td>
-                    <a href="/addRental?userID={{user.user_id}}" class="button is-success is-small">Add Rental</a>
-                    {% if user.api_keys %}
-                    <a href="/removeRental?userID={{user.user_id}}" class="button is-danger is-small">Remove Rental</button>
-                    {% else %}
-                    <a href="/removeRental?userID={{user.user_id}}" class="button is-danger is-small" disabled>Remove Rental</button>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
+    <img src="/static/images/bots.png" alt="" style="height: 100px;">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <article class="message" id="server-message">
+            <div class="message-header">
+              <p>Message from server: </p>
+              <button class="delete" aria-label="delete" onclick="delete_msg()"></button>
+            </div>
+            <div class="message-body">
+                {{ message }}
+            </div>
+          </article>
+          {% endfor %}
+          {% endif %}
+        {% endwith %}
+        <div class="table-container">
+            <table class="datatable table is-fullwidth is-bordered is-hoverable" align="left">
+                <thead>
+                    <tr>
+                        <th>Bot ID</th>
+                        <th>Bot Name</th>
+                        <th>Bot Discord Email</th>
+                        <th>Bot Key</th>
+                        <th>Cookie Status</th>
+                        <th>Availability</th>
+                        <th>Rental End</th>
+                        <th>Reset Bot</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    {% for bot in bots %}
+                    <tr>
+                        <td>{{ bot.bot_id }}</td>
+                        <td>{{ bot.name }}</td>
+                        <td>{{ bot.bot_discord_email }}</td>
+                        <td>{{ bot.bot_key }}</td>
+                        <td>{{True if bot.bot_cookie else False}}</td>
+                        <td>{{ bot.availability() }}</td>
+                        {% if bot.api_key %}
+                            {% if bot.api_key.rental_end %}
+                                <td>{{ bot.api_key.rental_end.strftime("%b %d %Y at %I:%M %p EST") if bot.api_key else "N/A"}}</td>
+                            {% else %}
+                                <td>Never</td>
+                            {% endif %}
+                        {% else %}
+                            <td>N/A</td>
+                        {% endif %}
+                        {% if bot.bot_cookie %}
+                        <td>
+                            <form action="/reset?bid={{ bot.bot_id }}" method="post">
+                                <button type="submit " class="button is-danger is-small" onclick="addSpin(this)">
+                                    Reset {{ bot.name }}
+                                </button>
+                            </form>
+                        </td>
+                        {% else %}
+                        <td>
+                            <form action="/reset?bid={{ bot.bot_id }}" method="post">
+                                <button disabled type="submit " class="button is-danger is-small" onclick="addSpin(this)">
+                                    Reset {{ bot.name }} 
+                                </button>
+                            </form>
+                        </td>
+                        {% endif %}
+                        <td>
+                            <a href="/editBot?bid={{ bot.bot_id }}" class="button is-danger is-small">Edit</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                
+            </table>
+        </div>
+        
 </section>
 
+
+<section class="section">
+    <img src="/static/images/customers.png" alt="" style="height: 100px;">
+    <div class="table-container">
+        <table class="datatable table is-fullwidth is-bordered is-hoverable">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Username</th>
+                    <th>User Email</th>
+                    <th>User DiscordID</th>
+                    <th>Bots Rented</th>
+                    <th>Manage</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.user_id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.discordID }}</td>
+                    <td>{{', '.join(user_dict[user.username]) }}</td>
+                    <td>
+                        <a href="/addRental?userID={{user.user_id}}" class="button is-success is-small">Add Rental</a>
+                        {% if user.api_keys %}
+                        <a href="/removeRental?userID={{user.user_id}}" class="button is-danger is-small">Remove Rental</button>
+                        {% else %}
+                        <a href="/removeRental?userID={{user.user_id}}" class="button is-danger is-small" disabled>Remove Rental</button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            
+        </table>
+    </div>
+        
+</section>
+
+<script type="text/javascript">
+    $('.datatable').DataTable({"pageLength": 10});
+</script>
 
 
 {% endblock %}
