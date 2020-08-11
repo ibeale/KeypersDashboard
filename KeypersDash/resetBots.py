@@ -7,10 +7,11 @@ import time
 import json
 
 
-def makeDriver():
+def makeDriver(proxy=None):
     options = webdriver.ChromeOptions()
-    options.add_argument(f"--proxy-server=3.224.161.46:3128")
-    # options.add_argument('headless')
+    if proxy:
+        options.add_argument(proxy)
+    options.add_argument('headless')
     options.add_argument('window-size=1920,1080')
 
     driver = webdriver.Chrome(options=options)
@@ -55,14 +56,14 @@ def discordLogin(driver, em, pw):
 
 def resetCyber(bot_cookie):
     try:
-        driver = makeDriver()
+        driver = makeDriver(proxy="--proxy-server=108.163.66.164:8080")
         
         driver.get("https://cybersole.io")
         driver.add_cookie(bot_cookie)
         driver.get("https://cybersole.io/dashboard")
         # error = discordLogin(driver, em, pw)
         reset = []
-        timeout = time.time() + 60
+        timeout = time.time() + 25
         while len(reset) == 0:
             if time.time() > timeout:
                 return "Timeout Cyber"
@@ -73,7 +74,7 @@ def resetCyber(bot_cookie):
         return 0
     except Exception as e:
         print(e)
-        return("Unknown error occured.")
+        return(str(e))
 
 
 def resetKodai(bot_cookie):
@@ -94,8 +95,11 @@ def resetKodai(bot_cookie):
         cookie = {"kodai_dashboard":bot_cookie['value']}
 
         data = '{"unbind_type":"machine"}'
-
-        response = requests.post('https://hub.kodai.io/api/user/unbind', headers=headers,cookies=cookie,data=data)
+        proxy = {
+            'http': 'http://108.163.66.164:8080',
+            'https': 'https://108.163.66.164:8080'
+        }
+        response = requests.post('https://hub.kodai.io/api/user/unbind', headers=headers,cookies=cookie,data=data, proxies=proxy)
         if response.status_code == 200:
             if not response.json()['success']:
                 return "Error Resetting. Rate Limit"
