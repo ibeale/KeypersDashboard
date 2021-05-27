@@ -143,8 +143,3 @@ def getCyberCookie(username,password):
             print(json.dumps(cookie))
 
 
-if __name__ == "__main__":
-#    cookie = json.loads('{"domain": "hub.kodai.io", "expiry": 1625682210, "httpOnly": true, "name": "kodai_dashboard", "path": "/", "secure": false, "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJ1cm5zeSMzMzExIiwiZW1haWwiOiJzdXBlcmNoaWxsaW4xMkBnbWFpbC5jb20iLCJpZCI6IjU1NzI4NTMxMjU5NDk2ODU3NyIsImF2YXRhciI6ImFfY2Y4YjkwMjk1MmJhOTc1OWFkM2QyMzBmYjQyYWU5YzAiLCJkaXNjcmltaW5hdG9yIjoiMzMxMSIsInN0b3JhZ2UiOiI0NjY4MTI2OGJmYjgyNTcxMTdjNTJiZWE3NzkxOWU5MWI3YjRiMzMxYmZkMTI1ODZjOTBkMjdkZmE2N2NiZGExYWI4YzJiYjk5ODE0MGZhYjVkZGZjYTA0YzNjMTExNmQ2ZjZmYzZkMDMwYTAzZDZjYjE4MWFlYTMxYTM0NzJjOTkxNGI4OWEwMjQ3ZjI0ZThiMzgxZjJhMDI0MjM1Y2Q4NGZlZTRjNTRiYzJkMWYyOGFlOWUwN2JhMTE0ZmI1MTMxNGQxMzQzMjdkNjU1YzUwODFiNjQ1YTdmZTQ1YzNjNjY0MzdmN2ExMTY4MjNkZmM1ZjViM2FhOTcwNTc5NWY1MDczNGUyZmQxYzc1NGNmNWM5NjNmYTg3ODJiMzRiZDg1NmM3MmY2ZmM2MDAzZDA5NWU5ODlkZjg2MWY3YzlmMmE3MTZhNDc5NGViNzdiOWEyNmI3MjNhYmMwMGY2MzRhMGRhM2Y2OWJkMWU3YzQ0N2Q2Mjg1Y2JhNDgxNTRjNzgyZjcxMmFhMzY5ZjFjY2JhZDA5MDBmNWRlYzZmZGU1NSIsImlwIjoiMjYwMToxYzA6NWYwMDoxNTA6ZDlmZjpkNTlkOjE5Mjk6YTU1NyIsImlhdCI6MTU5NDE0NjIxMn0.RBngceNpiuTsA734Q3CaNiu3ZWA8_Bmr8p8LX0ZYdNo"}')
-#    resetKodai(cookie)
-    getCyberCookie("kodairental01@gmail.com", "J33pers!")
-
